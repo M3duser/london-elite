@@ -1,11 +1,9 @@
-/* app.js — UK 2026 (Editorial Redesign / NO IMAGES)
+/* app.js — UK 2026 (Editorial Redesign v2)
    Goals:
-   - Editorial layout, minimal repetition, more breathing room
-   - No left timeline column, use full width
-   - Banner header (not card-like)
-   - Drawer menu: SIDEBAR (no lightbox card)
-   - Sheets: ALWAYS LIGHT + NO sticky headers (per request)
-   - Robust sheet keys (works even if SHEETS keys differ)
+   - More elegant, less “whiteout”, smaller type scale
+   - Sidebar drawer (slide-in) instead of centered lightbox card
+   - Sheets: ALWAYS LIGHT + NO sticky headers
+   - Keep iPhone-first, but looks good on iPad/desktop
 */
 
 import { TRIP_DATA } from "./data/trip.js";
@@ -45,11 +43,6 @@ function safeRenderIcons() {
 
 function scrollToTopSmooth() {
   window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function toggleBodyLock() {
-  const locked = drawerOpen || !!openSheet || activeEventIdx !== null;
-  document.body.classList.toggle("is-locked", locked);
 }
 
 function parseTimeToMinutes(timeStr) {
@@ -161,6 +154,7 @@ function setDay(dayId) {
   activeDayId = dayId;
   activeEventIdx = null;
   openSheet = null;
+  drawerOpen = false;
   render();
   scrollToTopSmooth();
 }
@@ -178,7 +172,7 @@ function nextDay() {
 }
 
 /* ---------------------------
-   TOP BAR (minimal)
+   TOP BAR
 --------------------------- */
 function renderTopBar() {
   const block = getCurrentBlock();
@@ -197,20 +191,16 @@ function renderTopBar() {
           <div class="topbar__block">${block.name}</div>
         </div>
 
-        ${
-          guideKey
-            ? `<button data-action="openSheet" data-sheet="${guideKey}" class="iconbtn press" aria-label="Abrir guía">
-                 ${icon("info")}
-               </button>`
-            : `<div style="width:44px;height:44px;"></div>`
-        }
+        <button data-action="openSheet" data-sheet="${guideKey}" class="iconbtn press" aria-label="Abrir guía">
+          ${icon("info")}
+        </button>
       </div>
     </div>
   `;
 }
 
 /* ---------------------------
-   BANNER HEADER (editorial, not card)
+   BANNER (smaller, more elegant)
 --------------------------- */
 function renderBanner() {
   const block = getCurrentBlock();
@@ -238,14 +228,14 @@ function renderBanner() {
 }
 
 /* ---------------------------
-   DAY NAV (segmented / underline, minimal)
+   DAY NAV
 --------------------------- */
 function renderDayNav() {
   const block = getCurrentBlock();
 
   return `
     <div class="wrap daynav no-swipe" style="${accentStyle(block.color)}">
-      <div class="daynav__rail">
+      <div class="daynav__rail no-scrollbar">
         ${block.daysOrder
           .map((id) => {
             const d = block.days[id];
@@ -280,7 +270,7 @@ function renderSectionLabel(label) {
 }
 
 /* ---------------------------
-   EVENT LIST ITEM (no cards, full width, editorial)
+   EVENT LIST ITEM
 --------------------------- */
 function renderEventItem(e, idx) {
   const hasTips = Array.isArray(e.tips) && e.tips.length;
@@ -337,7 +327,7 @@ function renderEventItem(e, idx) {
 }
 
 /* ---------------------------
-   TIMELINE (grouped, editorial)
+   TIMELINE
 --------------------------- */
 function renderTimeline() {
   const day = getCurrentDay();
@@ -366,7 +356,7 @@ function renderTimeline() {
 }
 
 /* ---------------------------
-   DAY DOCK (clean)
+   DAY DOCK
 --------------------------- */
 function renderDayDock() {
   const block = getCurrentBlock();
@@ -408,51 +398,50 @@ function renderDayDock() {
 }
 
 /* ---------------------------
-   DRAWER MENU (SIDEBAR)
+   SIDEBAR DRAWER (slide-in)
 --------------------------- */
 function renderDrawer() {
   if (!drawerOpen) return "";
 
   const block = getCurrentBlock();
   const day = getCurrentDay();
-
-  const sheetKeys = Object.keys(TRIP_DATA.sheets || {}).slice(0, 4);
+  const sheetKeys = Object.keys(TRIP_DATA.sheets || {}).slice(0, 6);
 
   return `
     <div class="overlay overlay--drawer" style="${accentStyle(block.color)}">
       <div class="overlay__bg" data-action="closeDrawer"></div>
 
-      <aside class="menu" role="dialog" aria-modal="true" aria-label="Menú">
-        <div class="menu__top">
-          <div>
-            <div class="menu__kicker">UK 2026</div>
-            <div class="menu__title">Menú</div>
+      <aside class="sidebar" role="dialog" aria-modal="true" aria-label="Menú">
+        <div class="sidebar__top">
+          <div class="sidebar__meta">
+            <div class="sidebar__kicker">UK 2026</div>
+            <div class="sidebar__title">Menú</div>
           </div>
-          <button data-action="closeDrawer" class="iconbtn press" aria-label="Cerrar">
+          <button data-action="closeDrawer" class="iconbtn press" aria-label="Cerrar menú">
             ${icon("x")}
           </button>
         </div>
 
-        <div class="menu__sec">Destinos</div>
+        <div class="sidebar__sec">Destinos</div>
 
-        <div class="menu__list">
+        <div class="sideList">
           ${TRIP_DATA.blocks
             .map((b, i) => {
               const isActive = i === activeBlockIdx;
               return `
                 <button
-                  class="menuItem ${isActive ? "is-active" : ""}"
+                  class="sideItem ${isActive ? "is-active" : ""}"
                   data-action="setBlock"
                   data-idx="${i}"
                   style="${accentStyle(b.color)}"
                 >
-                  <span class="menuItem__dot"></span>
-                  <span class="menuItem__body">
-                    <span class="menuItem__name">${b.name}</span>
-                    <span class="menuItem__dates">${b.dates}</span>
+                  <span class="sideItem__dot"></span>
+                  <span class="sideItem__body">
+                    <span class="sideItem__name">${b.name}</span>
+                    <span class="sideItem__dates">${b.dates}</span>
                   </span>
-                  <span class="menuItem__right">
-                    ${isActive ? `<span class="menuItem__state">ACTIVO</span>` : icon("chevron-right")}
+                  <span class="sideItem__right">
+                    ${isActive ? `<span class="sideItem__state">ACTIVO</span>` : icon("chevron-right")}
                   </span>
                 </button>
               `;
@@ -463,15 +452,15 @@ function renderDrawer() {
         ${
           sheetKeys.length
             ? `
-              <div class="menu__sec">Guías</div>
-              <div class="menu__actions">
+              <div class="sidebar__sec">Guías</div>
+              <div class="sideActions">
                 ${sheetKeys
                   .map((k) => {
                     const s = TRIP_DATA.sheets[k];
                     return `
-                      <button class="miniAction press" data-action="openSheet" data-sheet="${k}">
-                        <span class="miniAction__ico">${icon(s.icon, "i-18")}</span>
-                        <span class="miniAction__txt">${s.title}</span>
+                      <button class="sideAction press" data-action="openSheet" data-sheet="${k}">
+                        <span class="sideAction__ico">${icon(s.icon, "i-18")}</span>
+                        <span class="sideAction__txt">${s.title}</span>
                       </button>
                     `;
                   })
@@ -481,20 +470,18 @@ function renderDrawer() {
             : ""
         }
 
-        <div class="menu__now">
-          <div class="menu__nowK">Ahora</div>
-          <div class="menu__nowTitle">${block.name}</div>
-          <div class="menu__nowSub">${(day?.tag || "").toUpperCase()} · ${getTopDateLabel()}</div>
+        <div class="sideNow">
+          <div class="sideNow__k">Ahora</div>
+          <div class="sideNow__title">${block.name}</div>
+          <div class="sideNow__sub">${(day?.tag || "").toUpperCase()} · ${getTopDateLabel()}</div>
         </div>
-
-        <div style="height: calc(10px + var(--safe-bottom));"></div>
       </aside>
     </div>
   `;
 }
 
 /* ---------------------------
-   SHEET (Guide / Gemas) — ALWAYS LIGHT, NO sticky head
+   SHEET (Guide / Gemas) — LIGHT, NO sticky head
 --------------------------- */
 function renderSheet() {
   if (!openSheet) return "";
@@ -540,7 +527,7 @@ function renderSheet() {
 }
 
 /* ---------------------------
-   EVENT DETAILS SHEET — ALWAYS LIGHT, NO sticky head
+   EVENT DETAILS SHEET — LIGHT, NO sticky head
 --------------------------- */
 function renderEventDetailsSheet() {
   if (activeEventIdx === null) return "";
@@ -703,7 +690,6 @@ function render() {
   `;
 
   safeRenderIcons();
-  toggleBodyLock();
 }
 
 /* ---------------------------
@@ -722,10 +708,9 @@ app.addEventListener("click", (e) => {
   if (action === "nextDay") return nextDay();
 
   if (action === "openSheet") {
-    const key = btn.getAttribute("data-sheet");
-    if (!key || !TRIP_DATA.sheets?.[key]) return;
-    openSheet = key;
+    openSheet = btn.getAttribute("data-sheet");
     drawerOpen = false;
+    activeEventIdx = null;
     render();
     return;
   }
@@ -739,6 +724,7 @@ app.addEventListener("click", (e) => {
   if (action === "openDrawer") {
     drawerOpen = true;
     openSheet = null;
+    activeEventIdx = null;
     render();
     return;
   }
@@ -807,16 +793,12 @@ window.addEventListener(
    KEYBOARD SUPPORT (desktop)
 --------------------------- */
 window.addEventListener("keydown", (e) => {
-  // ESC cierra overlays en orden
-  if (e.key === "Escape") {
-    if (activeEventIdx !== null) activeEventIdx = null;
-    else if (openSheet) openSheet = null;
-    else if (drawerOpen) drawerOpen = false;
-    render();
-    return;
-  }
-
   if (drawerOpen || openSheet || activeEventIdx !== null) return;
+  if (e.key === "Escape") {
+    if (drawerOpen) { drawerOpen = false; render(); }
+    if (openSheet) { openSheet = null; render(); }
+    if (activeEventIdx !== null) { activeEventIdx = null; render(); }
+  }
   if (e.key === "ArrowLeft") prevDay();
   if (e.key === "ArrowRight") nextDay();
 });

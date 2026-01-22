@@ -13,39 +13,14 @@
     rel="stylesheet"
   >
 
-  <!-- Tailwind CDN (opcional, lo usas en el body class) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Tailwind config (premium tokens) -->
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ["Inter", "system-ui", "sans-serif"],
-            serif: ["Playfair Display", "serif"]
-          },
-          colors: {
-            ink: "#0B0F16",
-            cream: "#FDFCFB",
-          },
-          boxShadow: {
-            soft: "0 14px 40px rgba(15,23,42,.08)",
-            hard: "0 30px 90px rgba(15,23,42,.16)",
-          }
-        }
-      }
-    }
-  </script>
-
   <link rel="stylesheet" href="./styles.css" />
 </head>
 
-<body class="bg-cream text-ink font-sans">
+<body>
   <div id="app"></div>
 
-  <!-- Lucide Icons (solo UNA vez) -->
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 
   <!-- App -->
   <script type="module" src="./app.js"></script>
