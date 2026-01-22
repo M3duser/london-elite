@@ -1,19 +1,22 @@
-import { TRIP_DATA } from "./data/trip.js";
-import { smartImgTag, hydrateSmartImages } from "./data/smartImage.js";
+/* app.js — UK 2026 (Luxury Concierge / NO IMAGES)
+   - Luxury visual system (color + gradients + refined surfaces)
+   - Top bar: DATE ONLY (no "Día 1", no title)
+   - Timeline: compact essentials only
+   - Details: sheet modal
+   - iPhone-friendly: no oversized cards, safe areas, smooth interactions
+*/
 
+import { TRIP_DATA } from "./data/trip.js";
 
 /* ---------------------------
    STATE
 --------------------------- */
 let activeBlockIdx = 0;
 let activeDayId = TRIP_DATA.blocks[0].daysOrder[0];
-let goalExpanded = false; // por default compacto
-let activeEventIdx = null; // para modal de detalles
-
+let activeEventIdx = null;
 
 let openSheet = null;
 let drawerOpen = false;
-let compactMode = true;
 
 const app = document.querySelector("#app");
 if (!app) throw new Error("No existe el div #app. Revisa index.html");
@@ -65,20 +68,78 @@ function groupEventsByBucket(events = []) {
   return groups;
 }
 
-function typeBadge(type) {
+function labelSection(label) {
+  if (label === "MORNING") return "Mañana";
+  if (label === "AFTERNOON") return "Tarde";
+  return "Noche";
+}
+
+/* DATE LABELS */
+function dateFromId(dayId) {
+  // expected: mar31, abr01, abr02, etc.
+  const mon = (dayId || "").slice(0, 3).toLowerCase();
+  const dd = (dayId || "").slice(-2);
   const map = {
-    logística: "bg-blue-500/10 text-blue-700 border-blue-500/15",
-    visita: "bg-emerald-500/10 text-emerald-700 border-emerald-500/15",
-    foodie: "bg-amber-500/10 text-amber-700 border-amber-500/15",
-    base: "bg-slate-900/10 text-slate-900 border-slate-900/15",
-    evento: "bg-fuchsia-500/10 text-fuchsia-700 border-fuchsia-500/15",
-    default: "bg-black/5 text-black/50 border-black/10",
+    ene: "ENE",
+    feb: "FEB",
+    mar: "MAR",
+    abr: "ABR",
+    may: "MAY",
+    jun: "JUN",
+    jul: "JUL",
+    ago: "AGO",
+    sep: "SEP",
+    oct: "OCT",
+    nov: "NOV",
+    dic: "DIC",
   };
-  return map[type] || map.default;
+  const mm = map[mon] || mon.toUpperCase();
+  return `${dd} ${mm}`;
+}
+
+function getDayDateLabel(dayId) {
+  const day = getCurrentBlock().days[dayId];
+  return (day?.shortDate ? day.shortDate : dateFromId(dayId)).toUpperCase();
+}
+
+function getTopDateLabel() {
+  const day = getCurrentDay();
+  return (day?.shortDate ? day.shortDate : dateFromId(activeDayId)).toUpperCase();
+}
+
+/* ACCENT + JEWEL BADGES */
+function accentStyle(blockColor) {
+  const c = blockColor || "#0f141a";
+  return `--accent:${c};`;
+}
+
+function typeBadge(type) {
+  const t = (type || "").toLowerCase();
+
+  // Jewel tones (more premium than standard tailwind blues/greens)
+  const map = {
+    logística:
+      "bg-[rgba(18,58,111,0.16)] text-[rgba(18,58,111,0.95)] border-[rgba(18,58,111,0.26)]",
+    transporte:
+      "bg-[rgba(15,20,26,0.06)] text-[rgba(15,20,26,0.75)] border-[rgba(15,20,26,0.14)]",
+    visita:
+      "bg-[rgba(11,59,46,0.16)] text-[rgba(11,59,46,0.95)] border-[rgba(11,59,46,0.26)]",
+    foodie:
+      "bg-[rgba(199,164,107,0.20)] text-[rgba(110,74,18,0.95)] border-[rgba(199,164,107,0.34)]",
+    evento:
+      "bg-[rgba(122,31,61,0.18)] text-[rgba(122,31,61,0.97)] border-[rgba(122,31,61,0.30)]",
+    base:
+      "bg-[rgba(74,42,120,0.16)] text-[rgba(74,42,120,0.97)] border-[rgba(74,42,120,0.28)]",
+    default:
+      "bg-[rgba(15,20,26,0.06)] text-[rgba(15,20,26,0.60)] border-[rgba(15,20,26,0.12)]",
+  };
+
+  return map[t] || map.default;
 }
 
 function nodeIsDark(type) {
-  return type === "evento" || type === "base";
+  const t = (type || "").toLowerCase();
+  return t === "evento" || t === "base";
 }
 
 /* ---------------------------
@@ -88,6 +149,7 @@ function setBlock(idx) {
   activeBlockIdx = idx;
   const block = getCurrentBlock();
   activeDayId = block.daysOrder[0];
+  activeEventIdx = null;
   openSheet = null;
   drawerOpen = false;
   render();
@@ -114,100 +176,97 @@ function nextDay() {
   if (idx < block.daysOrder.length - 1) setDay(block.daysOrder[idx + 1]);
 }
 
-function toggleCompact() {
-  compactMode = !compactMode;
-  render();
-}
-
 /* ---------------------------
-   UI: TOP BAR (MINIMAL)
+   UI: TOP BAR (DATE ONLY)
 --------------------------- */
 function renderTopBar() {
   const block = getCurrentBlock();
-  const day = getCurrentDay();
+  const dateLabel = getTopDateLabel();
 
   return `
-    <div class="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-black/5 no-swipe">
-      <div class="max-w-[1100px] mx-auto px-4 py-3 flex items-center justify-between gap-3">
-        
-        <button
-          data-action="openDrawer"
-          class="w-11 h-11 rounded-2xl border border-black/10 bg-white/80 shadow-soft flex items-center justify-center active:scale-95 transition-all"
-          title="Menu"
-        >
-          ${icon("menu", "w-6 h-6 text-black/70")}
-        </button>
+    <div class="sticky top-0 z-50 no-swipe">
+      <div class="lux-topbar">
+        <div class="max-w-[1100px] mx-auto px-4 py-3 flex items-center justify-between gap-3">
 
-        <div class="flex-1 min-w-0 text-center">
-          <div class="text-[10px] font-black tracking-[0.28em] uppercase text-black/35">
-            ${block.name} · ${day.tag}
+          <button
+            data-action="openDrawer"
+            class="lux-iconbtn press"
+            title="Menu"
+          >
+            ${icon("menu", "w-6 h-6")}
+          </button>
+
+          <div class="flex-1 min-w-0 text-center">
+            <div class="lux-date">
+              ${dateLabel}
+            </div>
+            <div class="lux-subtitle truncate">
+              ${block.name}
+            </div>
           </div>
-          <div class="text-[13px] font-extrabold text-black/85 truncate">
-            ${day.title}
-          </div>
+
+          <button
+            data-action="openSheet"
+            data-sheet="transporte"
+            class="lux-iconbtn press"
+            title="Guía"
+          >
+            ${icon("info", "w-6 h-6")}
+          </button>
+
         </div>
-
-        <button
-          data-action="openSheet"
-          data-sheet="transporte"
-          class="w-11 h-11 rounded-2xl border border-black/10 bg-white/80 shadow-soft flex items-center justify-center active:scale-95 transition-all"
-          title="Guía"
-        >
-          ${icon("info", "w-6 h-6 text-black/70")}
-        </button>
       </div>
     </div>
   `;
 }
 
 /* ---------------------------
-   HEADER (NO TOPNAV PILLS)
+   HEADER (More designed / color system)
 --------------------------- */
 function renderHeader() {
   const block = getCurrentBlock();
+  const accent = block.color || "#0f141a";
 
   return `
     <div class="max-w-[1100px] mx-auto px-4 pt-5 pb-2">
-      <div class="flex items-center gap-3 mb-2">
-        <div class="w-9 h-[3px] rounded-full" style="background:${block.color}"></div>
-        <div class="text-[10px] font-black tracking-[0.35em] text-black/35">
-          STAGE ${activeBlockIdx + 1}
-        </div>
-      </div>
-
-      <!-- TITLE ROW -->
-      <div class="flex items-end justify-between gap-3">
-        <h1 class="font-serif font-black tracking-tight uppercase leading-[0.92]
-                  text-[40px] sm:text-[52px] md:text-[60px]">
-          ${block.name}
-        </h1>
-
-        <!-- small badge right -->
-        <div class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 border border-black/5 shadow-soft">
-          ${icon("sparkles", "w-4 h-4 text-black/45")}
-          <span class="text-[10px] font-black tracking-[0.25em] uppercase text-black/35">UK 2026</span>
-        </div>
-      </div>
-
-      <!-- CHIPS (COMPACT) -->
-      <div class="mt-3 flex flex-wrap gap-2">
-        <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-white/85 border border-black/5 shadow-soft">
-          ${icon("calendar", "w-4 h-4 text-black/45")}
-          <span class="text-[12px] font-semibold text-black/60">${block.dates}</span>
+      <div class="lux-hero" style="${accentStyle(accent)}">
+        <div class="lux-hero-top">
+          <div class="lux-kicker">
+            <span class="lux-kicker-bar"></span>
+            Itinerario
+          </div>
+          <div class="lux-hero-badge">
+            <span class="lux-dot"></span>
+            UK 2026
+          </div>
         </div>
 
-        <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl bg-white/85 border border-black/5 shadow-soft min-w-0">
-          ${icon("map-pin", "w-4 h-4 text-black/45")}
-          <span class="text-[12px] font-semibold text-black/60 truncate">${block.hotel}</span>
+        <div class="lux-hero-title">
+          <h1 class="font-serif lux-h1">${block.name}</h1>
+        </div>
+
+        <div class="lux-hero-meta">
+          <span class="lux-chip">
+            ${icon("calendar", "w-4 h-4")}
+            <span>${block.dates}</span>
+          </span>
+
+          ${
+            block.base
+              ? `<span class="lux-chip lux-chip-muted">
+                  ${icon("map-pin", "w-4 h-4")}
+                  <span class="truncate max-w-[250px]">${block.base}</span>
+                 </span>`
+              : ""
+          }
         </div>
       </div>
     </div>
   `;
 }
 
-
 /* ---------------------------
-   DAY RAIL (STAYS)
+   DAY RAIL (DATE ONLY pills, more color)
 --------------------------- */
 function renderDayRail() {
   const block = getCurrentBlock();
@@ -217,25 +276,21 @@ function renderDayRail() {
       <div class="flex gap-3 overflow-x-auto no-scrollbar py-2 scroll-smooth">
         ${block.daysOrder
           .map((id) => {
+            const d = block.days[id];
             const isActive = id === activeDayId;
-            const num = id.slice(-2);
-            const mon = id.slice(0, 3).toUpperCase();
+            const date = getDayDateLabel(id);
+            const tag = (d?.shortTag || d?.tag || "").toUpperCase();
 
             return `
               <button
                 data-action="setDay"
                 data-day="${id}"
-                class="flex-shrink-0 transition-all ${
-                  isActive ? "scale-[1.05]" : "opacity-40 hover:opacity-70"
-                }"
+                class="flex-shrink-0 transition ${isActive ? "scale-[1.02]" : "opacity-65 hover:opacity-90"}"
+                title="${date}"
               >
-                <div class="${
-                  isActive
-                    ? "bg-white border-ink shadow-soft"
-                    : "bg-black/[0.03] border-transparent"
-                } w-14 h-14 rounded-[22px] border-2 flex flex-col items-center justify-center">
-                  <div class="text-[12px] font-black">${num}</div>
-                  <div class="text-[9px] font-black tracking-[0.12em] text-black/55">${mon}</div>
+                <div class="lux-daypill ${isActive ? "is-active" : ""}" style="${accentStyle(block.color)}">
+                  <div class="lux-daypill-date">${date}</div>
+                  <div class="lux-daypill-tag">${tag}</div>
                 </div>
               </button>
             `;
@@ -247,123 +302,107 @@ function renderDayRail() {
 }
 
 /* ---------------------------
-   GOAL CARD
+   SECTION HEADER (designed divider)
 --------------------------- */
-function renderGoalCard() {
-  const day = getCurrentDay();
-  const block = getCurrentBlock();
-
+function renderSectionHeader(label) {
   return `
-    <div class="max-w-[1100px] mx-auto px-4 mt-2">
-      <div class="goal-card ${goalExpanded ? "is-expanded" : "is-collapsed"}">
-        
-        <div class="goal-top">
-          <span class="goal-tag">
-            <span class="dot" style="background:${block.color}"></span>
-            ${day.tag}
-          </span>
-
-          <button class="goal-toggle" id="goalToggleBtn" aria-label="Toggle goal">
-            <span>${goalExpanded ? "OCULTAR" : "VER"}</span>
-            ${icon(goalExpanded ? "chevron-up" : "chevron-down", "w-4 h-4")}
-          </button>
-        </div>
-
-        <div class="goal-label">OBJETIVO</div>
-
-        <p class="goal-text ${goalExpanded ? "" : "line-clamp-2"}">
-          “${day.goal}”
-        </p>
-
-      </div>
+    <div class="lux-section">
+      <div class="lux-line"></div>
+      <div class="lux-section-chip">${labelSection(label)}</div>
+      <div class="lux-line"></div>
     </div>
   `;
 }
 
+/* ---------------------------
+   EVENT ROW (NO IMAGE, premium layout)
+--------------------------- */
+function renderEventCard(e, idx) {
+  const block = getCurrentBlock();
+  const accent = block.color || "#0f141a";
+  const dark = nodeIsDark(e.type);
 
+  const hasTips = Array.isArray(e.tips) && e.tips.length;
+
+  return `
+    <div class="lux-row" style="${accentStyle(accent)}">
+      <div class="lux-row-left ${dark ? "is-dark" : ""}">
+        <div class="lux-iconring">
+          ${icon(e.icon, "w-5 h-5")}
+        </div>
+      </div>
+
+      <div class="lux-row-card">
+        <div class="lux-row-accent"></div>
+
+        <div class="lux-row-head">
+          <div class="lux-time">
+            <div class="lux-time-val">${e.time || ""}</div>
+            <div class="lux-time-lbl">TIME</div>
+          </div>
+
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <div class="lux-title truncate">${e.title}</div>
+                ${
+                  e.desc
+                    ? `<div class="lux-desc line-clamp-1">${e.desc}</div>`
+                    : `<div class="lux-desc opacity-60">—</div>`
+                }
+              </div>
+
+              <button
+                data-action="openEvent"
+                data-event-idx="${idx}"
+                class="lux-details press"
+              >
+                DETALLES
+                ${icon("chevron-right", "w-4 h-4")}
+              </button>
+            </div>
+
+            <div class="mt-3 flex items-center gap-2 flex-wrap">
+              <span class="lux-badge ${typeBadge(e.type)}">
+                <span class="lux-badge-dot"></span>
+                ${(e.type || "INFO").toUpperCase()}
+              </span>
+
+              ${
+                hasTips
+                  ? `
+                    <div class="flex flex-wrap gap-2">
+                      ${e.tips
+                        .slice(0, 2)
+                        .map(
+                          (t) => `
+                          <span class="lux-tip">
+                            ${icon("sparkles", "w-4 h-4")}
+                            ${t}
+                          </span>
+                        `
+                        )
+                        .join("")}
+                      ${
+                        e.tips.length > 2
+                          ? `<span class="lux-more">+${e.tips.length - 2}</span>`
+                          : ""
+                      }
+                    </div>
+                  `
+                  : ""
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
 
 /* ---------------------------
    TIMELINE
 --------------------------- */
-function renderSectionHeader(label) {
-  return `
-    <div class="flex items-center gap-3 mt-8 mb-4">
-      <div class="h-[1px] flex-1 bg-black/10"></div>
-      <div class="text-[10px] font-black tracking-[0.35em] uppercase text-black/35">
-        ${label}
-      </div>
-      <div class="h-[1px] flex-1 bg-black/10"></div>
-    </div>
-  `;
-}
-
-function renderEventCard(e, idx) {
-  const dark = nodeIsDark(e.type);
-
-  const coverHeight = compactMode ? "h-44" : "h-56 md:h-64";
-  const bodyPad = compactMode ? "p-5 md:p-6" : "p-6 md:p-7";
-  const descSize = compactMode ? "text-[14px]" : "text-[15px]";
-
-  return `
-    <div class="relative flex gap-4">
-      <div class="${
-        dark ? "bg-ink text-white" : "bg-white text-black/45"
-      } w-14 h-14 rounded-full border-4 border-cream shadow-soft flex items-center justify-center flex-shrink-0">
-        ${icon(e.icon, "w-5 h-5")}
-      </div>
-
-      <div class="flex-1 pt-1">
-        <div class="flex items-center gap-2 mb-3">
-          <div class="px-2.5 py-1 rounded-xl bg-black/[0.04] text-[12px] font-black">
-            ${e.time}
-          </div>
-
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border text-[9px] font-black tracking-[0.22em] uppercase ${typeBadge(
-            e.type
-          )}">
-            ${e.type}
-          </div>
-        </div>
-
-        <div class="rounded-[36px] overflow-hidden bg-white/90 border border-black/5 shadow-soft transition-all hover:shadow-hard hover:-translate-y-[1px]">
-          <div class="relative ${coverHeight} overflow-hidden">
-            ${smartImgTag({
-  src: e.img,
-  alt: e.title,
-  type: e.type,
-  className: "w-full h-full object-cover",
-  width: 1600,
-})}
-
-            <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent p-6 flex items-end">
-              <h3 class="font-serif text-white text-[22px] md:text-[28px] font-black leading-none tracking-tight">
-                ${e.title}
-              </h3>
-            </div>
-          </div>
-
-          <div class="${bodyPad}">
-            <p class="${descSize} leading-relaxed font-semibold text-black/55 mb-4">
-              ${e.desc}
-            </p>
-
-            <!-- ✅ BOTÓN DETALLES -->
-            <button
-              data-action="openEvent"
-              data-event-idx="${idx}"
-              class="event-details-btn"
-            >
-              ${icon("info", "w-4 h-4")}
-              DETALLES
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-
 function renderTimeline() {
   const day = getCurrentDay();
   const grouped = groupEventsByBucket(day.events);
@@ -375,80 +414,67 @@ function renderTimeline() {
   ];
 
   return `
-    <div class="max-w-[1100px] mx-auto px-4 mt-4">
-
-      <div class="relative">
-        <div class="absolute left-[28px] top-0 bottom-0 w-[1px] bg-black/10"></div>
-
-        <div class="space-y-6">
-          ${sections
-            .map(([label, items]) => {
-              if (!items.length) return "";
-              return `
-                ${renderSectionHeader(label)}
-                <div class="space-y-7">
-                 ${items
-  .map((ev) => {
-    const originalIdx = day.events.indexOf(ev);
-    return renderEventCard(ev, originalIdx);
-  })
-  .join("")}
-
-                </div>
-              `;
-            })
-            .join("")}
-        </div>
+    <div class="max-w-[1100px] mx-auto px-4 mt-3">
+      <div class="space-y-6">
+        ${sections
+          .map(([label, items]) => {
+            if (!items.length) return "";
+            return `
+              ${renderSectionHeader(label)}
+              <div class="space-y-4">
+                ${items
+                  .map((ev) => {
+                    const originalIdx = day.events.indexOf(ev);
+                    return renderEventCard(ev, originalIdx);
+                  })
+                  .join("")}
+              </div>
+            `;
+          })
+          .join("")}
       </div>
     </div>
   `;
 }
 
 /* ---------------------------
-   DOCK (MINIMAL + NOT OBSTRUCTIVE)
+   DAY DOCK (more premium)
 --------------------------- */
 function renderDayDock() {
   const block = getCurrentBlock();
-  const day = getCurrentDay();
   const idx = block.daysOrder.indexOf(activeDayId);
 
   const prevDisabled = idx <= 0;
   const nextDisabled = idx >= block.daysOrder.length - 1;
 
+  const dateLabel = getTopDateLabel();
+
   return `
     <div class="fixed left-0 right-0 z-[60] bottom-4 pointer-events-none">
       <div class="max-w-[560px] mx-auto px-4">
-        <div class="pointer-events-auto bg-white/70 backdrop-blur-xl border border-black/5 shadow-hard rounded-[22px] px-3 py-2.5">
-          <div class="flex items-center justify-between gap-3">
-            <button
-              data-action="prevDay"
-              class="w-10 h-10 rounded-2xl border border-black/10 bg-white/90 flex items-center justify-center active:scale-95 transition-all ${
-                prevDisabled ? "opacity-25 cursor-not-allowed" : ""
-              }"
-              ${prevDisabled ? "disabled" : ""}
-            >
-              ${icon("chevron-left", "w-6 h-6")}
-            </button>
+        <div class="lux-dock pointer-events-auto">
+          <button
+            data-action="prevDay"
+            class="lux-dockbtn press ${prevDisabled ? "opacity-30 cursor-not-allowed" : ""}"
+            ${prevDisabled ? "disabled" : ""}
+            title="Anterior"
+          >
+            ${icon("chevron-left", "w-6 h-6")}
+          </button>
 
-            <div class="flex-1 min-w-0 text-center">
-              <div class="text-[9px] font-black tracking-[0.28em] uppercase text-black/35">
-                Day ${idx + 1}/${block.daysOrder.length}
-              </div>
-              <div class="text-[13px] font-extrabold text-black/80 truncate">
-                ${day.title}
-              </div>
-            </div>
-
-            <button
-              data-action="nextDay"
-              class="w-10 h-10 rounded-2xl border border-black/10 bg-white/90 flex items-center justify-center active:scale-95 transition-all ${
-                nextDisabled ? "opacity-25 cursor-not-allowed" : ""
-              }"
-              ${nextDisabled ? "disabled" : ""}
-            >
-              ${icon("chevron-right", "w-6 h-6")}
-            </button>
+          <div class="flex-1 min-w-0 text-center">
+            <div class="lux-dockmeta">${dateLabel} · ${idx + 1}/${block.daysOrder.length}</div>
+            <div class="lux-docktitle truncate">${block.name}</div>
           </div>
+
+          <button
+            data-action="nextDay"
+            class="lux-dockbtn press ${nextDisabled ? "opacity-30 cursor-not-allowed" : ""}"
+            ${nextDisabled ? "disabled" : ""}
+            title="Siguiente"
+          >
+            ${icon("chevron-right", "w-6 h-6")}
+          </button>
         </div>
       </div>
     </div>
@@ -456,139 +482,86 @@ function renderDayDock() {
 }
 
 /* ---------------------------
-   DRAWER (MENU SANDWICH)
+   DRAWER (Menu premium)
 --------------------------- */
 function renderDrawer() {
   if (!drawerOpen) return "";
 
   const block = getCurrentBlock();
   const day = getCurrentDay();
+  const accent = block.color || "#0f141a";
 
   return `
     <div class="fixed inset-0 z-[90]">
-      <div class="absolute inset-0 bg-black/55 backdrop-blur-md" data-action="closeDrawer"></div>
+      <div class="absolute inset-0 bg-black/60 backdrop-blur-md" data-action="closeDrawer"></div>
 
-      <div class="absolute top-0 left-0 h-full w-[88%] max-w-[380px] bg-white shadow-hard p-6 animate-drawer">
-        <div class="flex items-center justify-between mb-6">
+      <div class="lux-drawer" style="${accentStyle(accent)}">
+        <div class="lux-drawer-head">
           <div>
-            <div class="text-[10px] font-black tracking-[0.30em] uppercase text-black/30">Menu</div>
-            <div class="font-serif text-[28px] font-black tracking-tight">UK 2026</div>
+            <div class="lux-drawer-kicker">Menu</div>
+            <div class="font-serif lux-drawer-title">UK 2026</div>
           </div>
-          <button
-            data-action="closeDrawer"
-            class="w-11 h-11 rounded-2xl border border-black/10 bg-black/[0.03] flex items-center justify-center active:scale-95"
-          >
+          <button data-action="closeDrawer" class="lux-iconbtn press" title="Cerrar">
             ${icon("x", "w-6 h-6")}
           </button>
         </div>
 
-        <!-- STAGES -->
-        <div class="text-[10px] font-black tracking-[0.30em] uppercase text-black/30 mb-3">
-          Destinos
-        </div>
+        <div class="lux-drawer-sec">Destinos</div>
 
         <div class="grid gap-2">
           ${TRIP_DATA.blocks
-            .map((b, idx) => {
-              const isActive = idx === activeBlockIdx;
+            .map((b, i) => {
+              const isActive = i === activeBlockIdx;
               return `
                 <button
                   data-action="setBlock"
-                  data-idx="${idx}"
-                  class="w-full text-left px-4 py-3 rounded-2xl border transition-all ${
-                    isActive
-                      ? "bg-ink text-white border-ink shadow-soft"
-                      : "bg-white border-black/10 hover:bg-black/[0.03]"
-                  }"
+                  data-idx="${i}"
+                  class="lux-drawer-item ${isActive ? "is-active" : ""}"
+                  style="${accentStyle(b.color || "#0f141a")}"
                 >
-                  <div class="text-[10px] font-black tracking-[0.22em] uppercase opacity-90">
-                    Stage ${idx + 1}
+                  <div class="lux-drawer-item-accent"></div>
+                  <div class="lux-drawer-item-body">
+                    <div class="lux-drawer-item-title truncate">${b.name}</div>
+                    <div class="lux-drawer-item-sub truncate">${b.dates}</div>
                   </div>
-                  <div class="font-extrabold text-[14px] truncate">${b.name}</div>
-                  <div class="text-[12px] font-semibold opacity-70 truncate">${b.dates}</div>
                 </button>
               `;
             })
             .join("")}
         </div>
 
-        <!-- QUICK ACTIONS -->
         <div class="mt-6">
-          <div class="text-[10px] font-black tracking-[0.30em] uppercase text-black/30 mb-3">
-            Quick actions
-          </div>
+          <div class="lux-drawer-sec">Quick actions</div>
 
           <div class="grid gap-2">
-            <button
-              data-action="openSheet"
-              data-sheet="recomendaciones"
-              class="px-4 py-3 rounded-2xl bg-black/[0.03] border border-black/10 flex items-center justify-between active:scale-[0.99]"
-            >
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-2xl bg-white border border-black/10 flex items-center justify-center">
-                  ${icon("star", "w-5 h-5 text-black/70")}
-                </div>
+            <button data-action="openSheet" data-sheet="recomendaciones" class="lux-qa press">
+              <div class="lux-qa-left">
+                <div class="lux-qa-ico">${icon("star", "w-5 h-5")}</div>
                 <div>
-                  <div class="font-extrabold text-[14px]">Gemas</div>
-                  <div class="text-[12px] font-semibold text-black/55">Recomendaciones top</div>
+                  <div class="lux-qa-title">Gemas</div>
+                  <div class="lux-qa-sub">Recomendaciones top</div>
                 </div>
               </div>
-              ${icon("chevron-right", "w-5 h-5 text-black/35")}
+              ${icon("chevron-right", "w-5 h-5")}
             </button>
 
-            <button
-              data-action="openSheet"
-              data-sheet="transporte"
-              class="px-4 py-3 rounded-2xl bg-black/[0.03] border border-black/10 flex items-center justify-between active:scale-[0.99]"
-            >
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-2xl bg-white border border-black/10 flex items-center justify-center">
-                  ${icon("info", "w-5 h-5 text-black/70")}
-                </div>
+            <button data-action="openSheet" data-sheet="transporte" class="lux-qa press">
+              <div class="lux-qa-left">
+                <div class="lux-qa-ico">${icon("info", "w-5 h-5")}</div>
                 <div>
-                  <div class="font-extrabold text-[14px]">Guía</div>
-                  <div class="text-[12px] font-semibold text-black/55">Transporte, clima, pubs</div>
+                  <div class="lux-qa-title">Guía</div>
+                  <div class="lux-qa-sub">Transporte, clima, pubs</div>
                 </div>
               </div>
-              ${icon("chevron-right", "w-5 h-5 text-black/35")}
+              ${icon("chevron-right", "w-5 h-5")}
             </button>
           </div>
         </div>
 
-        <!-- VIEW MODE -->
-        <div class="mt-6">
-          <div class="text-[10px] font-black tracking-[0.30em] uppercase text-black/30 mb-3">
-            View mode
-          </div>
-
-          <div class="flex gap-2">
-            <button
-              data-action="toggleCompact"
-              class="flex-1 px-4 py-3 rounded-2xl border border-black/10 font-black tracking-[0.22em] uppercase text-[10px] ${
-                compactMode ? "bg-ink text-white" : "bg-white text-black/55"
-              }"
-            >
-              Compact
-            </button>
-
-            <button
-              data-action="toggleCompact"
-              class="flex-1 px-4 py-3 rounded-2xl border border-black/10 font-black tracking-[0.22em] uppercase text-[10px] ${
-                !compactMode ? "bg-ink text-white" : "bg-white text-black/55"
-              }"
-            >
-              Full
-            </button>
-          </div>
-        </div>
-
-        <!-- CURRENT -->
-        <div class="mt-6 rounded-3xl bg-black/[0.03] border border-black/10 p-4">
-          <div class="text-[10px] font-black tracking-[0.30em] uppercase text-black/30 mb-2">
-            Now
-          </div>
-          <div class="font-extrabold text-[14px]">${block.name}</div>
-          <div class="text-[12px] font-semibold text-black/60 truncate">${day.title}</div>
+        <div class="lux-now mt-6">
+          <div class="lux-now-kicker">Now</div>
+          <div class="lux-now-title">${block.name}</div>
+          <div class="lux-now-sub truncate">${(day?.tag || "").toUpperCase()} · ${getTopDateLabel()}</div>
         </div>
       </div>
     </div>
@@ -596,68 +569,65 @@ function renderDrawer() {
 }
 
 /* ---------------------------
-   SHEET (GUIDE / GEMAS)
+   SHEET (Guide / Gemas) — premium, less white
 --------------------------- */
 function renderSheet() {
   if (!openSheet) return "";
-
   const data = TRIP_DATA.sheets[openSheet];
 
   return `
     <div class="fixed inset-0 z-[80] flex items-end justify-center">
-      <div class="absolute inset-0 bg-black/60 backdrop-blur-md" data-action="closeSheet"></div>
+      <div class="absolute inset-0 bg-black/65 backdrop-blur-md" data-action="closeSheet"></div>
 
-      <div class="relative w-full max-w-3xl rounded-t-[44px] bg-white p-7 pb-10 shadow-hard animate-sheet">
-        <div class="w-16 h-1.5 bg-black/10 rounded-full mx-auto mb-6"></div>
+      <div class="lux-sheet">
+        <div class="lux-sheet-handle"></div>
 
-        <div class="flex items-center justify-between gap-4 mb-6">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-2xl bg-black/[0.03] border border-black/5 flex items-center justify-center">
-              ${icon(data.icon, "w-6 h-6 text-ink")}
-            </div>
-
-            <div>
-              <div class="text-[10px] font-black tracking-[0.28em] uppercase text-black/30">Quick guide</div>
-              <h2 class="font-serif text-[28px] font-black tracking-tight">${data.title}</h2>
-            </div>
+        <div class="lux-sheet-head">
+          <div class="lux-sheet-ico">
+            ${icon(data.icon, "w-6 h-6")}
           </div>
 
-          <button
-            class="w-11 h-11 rounded-full bg-black/[0.03] border border-black/5 flex items-center justify-center active:scale-95"
-            data-action="closeSheet"
-          >
+          <div class="min-w-0">
+            <div class="lux-sheet-kicker">Quick guide</div>
+            <h2 class="font-serif lux-sheet-title truncate">${data.title}</h2>
+          </div>
+
+          <button class="lux-iconbtn press" data-action="closeSheet" aria-label="Cerrar">
             ${icon("x", "w-6 h-6")}
           </button>
         </div>
 
-        <div class="space-y-3">
+        <div class="lux-sheet-body">
           ${data.content
             .map(
               (item) => `
-              <div class="rounded-[28px] bg-black/[0.03] border border-black/5 p-5 hover:bg-white transition-all">
-                <div class="text-[10px] font-black tracking-[0.22em] uppercase text-black/35 mb-2">${item.title}</div>
-                <div class="text-[15px] leading-relaxed font-semibold text-black/65">${item.text}</div>
+              <div class="lux-sheet-card">
+                <div class="lux-sheet-card-kicker">${item.title}</div>
+                <div class="lux-sheet-card-text">${item.text}</div>
               </div>
             `
             )
             .join("")}
         </div>
+
+        <div style="height: calc(14px + env(safe-area-inset-bottom));"></div>
       </div>
     </div>
   `;
 }
 
+/* ---------------------------
+   EVENT DETAILS SHEET (NO IMAGES)
+--------------------------- */
 function renderEventDetailsSheet() {
   if (activeEventIdx === null) return "";
 
   const day = getCurrentDay();
+  const block = getCurrentBlock();
   const e = day.events[activeEventIdx];
   if (!e) return "";
 
-    const gallery = Array.isArray(e.gallery) && e.gallery.length
-    ? e.gallery.slice(0, 3)
-    : (e.img ? [e.img] : []);
-
+  const accent = block.color || "#0f141a";
 
   const hasDetails =
     (e.details && e.details.length) ||
@@ -666,74 +636,47 @@ function renderEventDetailsSheet() {
     e.notes ||
     e.subTitle;
 
-  // Si no hay nada extra, igual abrimos modal (por consistencia)
   return `
-    <div class="sheet-wrap">
-      <div class="sheet-overlay" data-action="closeEvent"></div>
+    <div class="fixed inset-0 z-[95] flex items-end justify-center">
+      <div class="absolute inset-0 bg-black/70 backdrop-blur-md" data-action="closeEvent"></div>
 
-      <div class="sheet-panel">
-        <div class="sheet-handle"></div>
+      <div class="lux-sheet" style="${accentStyle(accent)}">
+        <div class="lux-sheet-handle"></div>
 
-        <div class="sheet-header">
-          <div class="sheet-icon">
-            ${icon(e.icon, "w-6 h-6 text-black/80")}
-          </div>
+        <div class="lux-eventhead">
+          <div class="lux-eventhead-accent"></div>
 
-          <div class="sheet-headings">
-            <div class="sheet-meta">
-              <span class="sheet-time">${e.time || ""}</span>
-              <span class="sheet-type">${(e.type || "").toUpperCase()}</span>
+          <div class="flex items-start gap-3">
+            <div class="lux-sheet-ico">
+              ${icon(e.icon, "w-6 h-6")}
             </div>
 
-            <h3 class="sheet-title">${e.title}</h3>
-            ${
-              e.subTitle
-                ? `<p class="text-[12px] font-semibold text-black/50 mt-1">${e.subTitle}</p>`
-                : ""
-            }
-          </div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                ${e.time ? `<span class="lux-pill">${e.time}</span>` : ""}
+                <span class="lux-badge ${typeBadge(e.type)}">
+                  <span class="lux-badge-dot"></span>
+                  ${(e.type || "INFO").toUpperCase()}
+                </span>
+              </div>
 
-          <button class="sheet-close" data-action="closeEvent" aria-label="Cerrar">
-            ${icon("x", "w-6 h-6")}
-          </button>
+              <h3 class="font-serif lux-eventtitle">${e.title}</h3>
+              ${e.subTitle ? `<p class="lux-eventsub">${e.subTitle}</p>` : ""}
+            </div>
+
+            <button class="lux-iconbtn press" data-action="closeEvent" aria-label="Cerrar">
+              ${icon("x", "w-6 h-6")}
+            </button>
+          </div>
         </div>
 
-        <div class="sheet-body">
-                 ${
-  gallery.length
-    ? `
-      <div class="sheet-gallery no-swipe" aria-label="Galería">
-        ${gallery
-          .map(
-            (url) => `
-              <div class="sheet-slide">
-                <div class="sheet-hero">
-                 ${smartImgTag({
-  src: url,
-  alt: e.title,
-  type: e.type,
-  className: "w-full h-full object-cover",
-  width: 1600,
-})}
-
-                </div>
-              </div>
-            `
-          )
-          .join("")}
-      </div>
-    `
-    : ""
-}
-
-
-
+        <div class="lux-sheet-body">
           ${
             e.desc
               ? `
-              <div class="sheet-card">
-                <div class="sheet-card-label">DESCRIPCIÓN</div>
-                <p class="sheet-desc">${e.desc}</p>
+              <div class="lux-sheet-card">
+                <div class="lux-sheet-card-kicker">DESCRIPCIÓN</div>
+                <div class="lux-sheet-card-text">${e.desc}</div>
               </div>
             `
               : ""
@@ -742,11 +685,13 @@ function renderEventDetailsSheet() {
           ${
             e.details && e.details.length
               ? `
-              <div class="sheet-card">
-                <div class="sheet-card-label">DETALLES</div>
-                <ul class="space-y-2 text-[13px] font-semibold text-black/65 leading-relaxed">
+              <div class="lux-sheet-card">
+                <div class="lux-sheet-card-kicker">DETALLES</div>
+                <ul class="lux-list">
                   ${e.details
-                    .map((d) => `<li class="flex gap-2">${icon("check", "w-4 h-4 text-black/30")}<span>${d}</span></li>`)
+                    .map(
+                      (d) => `<li class="lux-li">${icon("check", "w-4 h-4")}<span>${d}</span></li>`
+                    )
                     .join("")}
                 </ul>
               </div>
@@ -757,17 +702,17 @@ function renderEventDetailsSheet() {
           ${
             e.options && e.options.length
               ? `
-              <div class="sheet-card">
-                <div class="sheet-card-label">OPCIONES</div>
+              <div class="lux-sheet-card">
+                <div class="lux-sheet-card-kicker">OPCIONES</div>
                 <div class="space-y-2">
                   ${e.options
                     .map(
                       (op) => `
-                        <div class="rounded-2xl bg-white/70 border border-black/5 p-4">
-                          <div class="text-[12px] font-extrabold text-black/80">${op.title}</div>
-                          <div class="text-[13px] font-semibold text-black/60 mt-1 leading-relaxed">${op.text}</div>
-                        </div>
-                      `
+                      <div class="lux-option">
+                        <div class="lux-option-title">${op.title}</div>
+                        <div class="lux-option-text">${op.text}</div>
+                      </div>
+                    `
                     )
                     .join("")}
                 </div>
@@ -779,14 +724,14 @@ function renderEventDetailsSheet() {
           ${
             e.tips && e.tips.length
               ? `
-              <div class="sheet-card">
-                <div class="sheet-card-label">TIPS</div>
-                <div class="sheet-tips">
+              <div class="lux-sheet-card">
+                <div class="lux-sheet-card-kicker">TIPS</div>
+                <div class="flex flex-wrap gap-2">
                   ${e.tips
                     .map(
                       (t) => `
-                      <span class="tip-pill">
-                        ${icon("sparkles", "w-4 h-4 text-black/25")}
+                      <span class="lux-tip">
+                        ${icon("sparkles", "w-4 h-4")}
                         ${t}
                       </span>
                     `
@@ -801,9 +746,9 @@ function renderEventDetailsSheet() {
           ${
             e.notes
               ? `
-              <div class="sheet-card">
-                <div class="sheet-card-label">NOTA</div>
-                <p class="sheet-desc">${e.notes}</p>
+              <div class="lux-sheet-card">
+                <div class="lux-sheet-card-kicker">NOTA</div>
+                <div class="lux-sheet-card-text">${e.notes}</div>
               </div>
             `
               : ""
@@ -812,34 +757,34 @@ function renderEventDetailsSheet() {
           ${
             !hasDetails
               ? `
-              <div class="sheet-card">
-                <div class="sheet-card-label">INFO</div>
-                <p class="sheet-desc">Este evento no tiene detalles extra todavía, pero ya está listo para que los agregues.</p>
+              <div class="lux-sheet-card">
+                <div class="lux-sheet-card-kicker">INFO</div>
+                <div class="lux-sheet-card-text">Este evento no tiene detalles extra todavía, pero ya está listo para que los agregues.</div>
               </div>
             `
               : ""
           }
+
+          <div style="height: calc(14px + env(safe-area-inset-bottom));"></div>
         </div>
       </div>
     </div>
   `;
 }
 
-
 /* ---------------------------
    MAIN RENDER
-   IMPORTANT: padding-bottom so nothing gets covered by dock
 --------------------------- */
 function render() {
+  const block = getCurrentBlock();
+
   app.innerHTML = `
-    <div class="min-h-screen bg-cream pb-[120px]">
+    <div class="min-h-screen lux-bg pb-[120px]" style="${accentStyle(block.color)}">
       ${renderTopBar()}
       ${renderHeader()}
       ${renderDayRail()}
-
       ${renderTimeline()}
 
-      <!-- Spacer so dock NEVER blocks content -->
       <div class="h-[110px]"></div>
 
       ${renderDayDock()}
@@ -850,7 +795,6 @@ function render() {
   `;
 
   safeRenderIcons();
-  hydrateSmartImages(app);
 }
 
 /* ---------------------------
@@ -867,8 +811,6 @@ app.addEventListener("click", (e) => {
 
   if (action === "prevDay") return prevDay();
   if (action === "nextDay") return nextDay();
-
-  if (action === "toggleCompact") return toggleCompact();
 
   if (action === "openSheet") {
     openSheet = btn.getAttribute("data-sheet");
@@ -896,7 +838,7 @@ app.addEventListener("click", (e) => {
     return;
   }
 
-    if (action === "openEvent") {
+  if (action === "openEvent") {
     activeEventIdx = Number(btn.getAttribute("data-event-idx"));
     render();
     return;
@@ -907,12 +849,10 @@ app.addEventListener("click", (e) => {
     render();
     return;
   }
-
 });
 
 /* ---------------------------
    SWIPE SUPPORT (iPhone)
-   - avoids conflict with horizontal scroll areas
 --------------------------- */
 let touchStartX = 0;
 let touchStartY = 0;
@@ -937,9 +877,7 @@ window.addEventListener(
     const noSwipe = touchStartTarget.closest?.(".no-swipe");
     if (noSwipe) return;
 
-   // If drawer/sheet/event modal open, ignore swipes
-if (drawerOpen || openSheet || activeEventIdx !== null) return;
-
+    if (drawerOpen || openSheet || activeEventIdx !== null) return;
 
     const t = e.changedTouches[0];
     const dx = t.clientX - touchStartX;
@@ -958,9 +896,7 @@ if (drawerOpen || openSheet || activeEventIdx !== null) return;
    KEYBOARD SUPPORT (desktop)
 --------------------------- */
 window.addEventListener("keydown", (e) => {
-// If drawer/sheet/event modal open, ignore swipes
-if (drawerOpen || openSheet || activeEventIdx !== null) return;
-
+  if (drawerOpen || openSheet || activeEventIdx !== null) return;
   if (e.key === "ArrowLeft") prevDay();
   if (e.key === "ArrowRight") nextDay();
 });
