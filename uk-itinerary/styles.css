@@ -350,7 +350,9 @@ ul,li{list-style:none;padding:0;margin:0;}
 
 .sheet{
   position:absolute;
-  bottom:0;left:0;right:0;
+  bottom:0;
+  left:0;
+  right:0;
   background:var(--surface);
   border-top-left-radius:20px;
   border-top-right-radius:20px;
@@ -361,7 +363,23 @@ ul,li{list-style:none;padding:0;margin:0;}
   box-shadow:0 -10px 40px rgba(0,0,0,.05);
   padding:0 0 var(--safe-bottom);
 }
-.overlay.open .sheet{transform:translateY(0);}
+
+/* ✅ iPad / Desktop: sheet centrado y con ancho máximo */
+@media (min-width: 720px){
+  .sheet{
+    left: 50%;
+    right: auto;
+    transform: translate(-50%, 100%); /* mantiene animación */
+    width: min(860px, calc(100vw - 48px)); /* mismo vibe que tu content */
+    border-radius: 20px; /* ya no solo arriba */
+    bottom: 24px;
+  }
+
+  .overlay.open .sheet{
+    transform: translate(-50%, 0);
+  }
+}
+
 
 /* NOT sticky */
 .sheet__header{
@@ -655,12 +673,15 @@ button,
 .res-card__top{
   display:flex;
   align-items:flex-start;
-  justify-content:space-between;
   gap:10px;
   margin-bottom:8px;
 
-  /* ✅ nuevo */
+  /* ✅ evita el hueco en iOS */
   flex-wrap:wrap;
+  justify-content:flex-start;
+
+    /* ✅ FIX iOS Safari: evita que “estire” las filas y cree huecos */
+  align-content:flex-start;
 }
 
 .res-card__title{
@@ -674,24 +695,35 @@ button,
   min-width: 0;
 }
 .res-pill{
+  margin-left:auto;
+
   font-size:10px;
   letter-spacing:1px;
   text-transform:uppercase;
-  border-radius:999px;
+
   padding:6px 10px;
+  border-radius:999px;
   border:1px solid rgba(172,147,98,.25);
   background: rgba(172,147,98,.10);
   color:#7d6a3e;
 
-  /* wrap real */
-  width: fit-content;
   max-width: 100%;
   white-space: normal;
   line-height: 1.25;
 
-  /* fuerza corte aunque sea una “palabra” larga */
-  overflow-wrap: anywhere;
-  word-break: break-word;
+  overflow-wrap:anywhere;
+  word-break:break-word;
+}
+
+@media (max-width:420px){
+  .res-card__top{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  .res-pill{
+    margin-left:0;
+    width:100%;
+  }
 }
 
 .res-card__why{
@@ -740,12 +772,4 @@ button,
   overflow: visible;
 }
 
-.res-card__top,
-.res-card__title{
-  min-width: 0;
-}
-@media (max-width:420px){
-  .res-pill{
-    width: 100%;
-  }
-}
+

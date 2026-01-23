@@ -355,8 +355,9 @@ function renderDrawer() {
   const insiderKeys = ["insider"].filter((k) => TRIP_DATA.sheets?.[k]);
 
   return `
-    <div class="overlay open" data-action="closeDrawer">
-      <div class="drawer" data-stop>
+  <div class="overlay open">
+    <div class="drawer" data-stop>
+
         <div class="drawer__top">
           <div class="drawer__logo">
             UK 2026<br/>Itinerario
@@ -568,7 +569,8 @@ function renderSheet() {
     if (!sheet) return `<div class="overlay ${isOpen}"></div>`;
 
     return `
-      <div class="overlay ${isOpen}" data-action="closeSheet">
+     <div class="overlay ${isOpen}">
+
         <div class="sheet" data-stop>
           <div class="sheet__header">
             <div class="sheet__headLeft">
@@ -614,7 +616,8 @@ function renderSheet() {
   if (!evt) return `<div class="overlay ${isOpen}"></div>`;
 
   return `
-    <div class="overlay ${isOpen}" data-action="closeSheet">
+    <div class="overlay ${isOpen}">
+
       <div class="sheet" data-stop>
         <div class="sheet__header">
           <div class="sheet__headLeft">
