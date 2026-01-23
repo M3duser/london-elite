@@ -12,6 +12,10 @@ let state = {
   sheetMode: null, // "event" | "guide"
   activeEventIdx: null,
   activeGuideKey: null,
+
+  insiderFilter: "All",
+  reservasLevel: "nivel1",
+
 };
 
 const app = document.getElementById("app");
@@ -52,22 +56,22 @@ const MONTH_MAP = {
 };
 
 function dayChipParts(dayObj, dayId) {
-  // Prefer shortDate if it has a space: "31 MAR"
   const sd = (dayObj?.shortDate || "").trim();
   if (sd && sd.includes(" ")) {
     const [dd, mm] = sd.split(/\s+/);
     return { dd: dd || "", mm: (mm || "").toUpperCase() };
   }
 
-  // Fallback for ids like "mar31", "abr01"
   const m = String(dayId || "").match(/^([a-zA-ZñÑ]{3})(\d{2})$/);
   if (m) {
     const mmKey = m[1].toLowerCase();
     return { dd: m[2], mm: MONTH_MAP[mmKey] || m[1].toUpperCase() };
   }
 
-  // Last fallback: show id compact
-  return { dd: String(dayId || "").slice(-2), mm: String(dayId || "").slice(0, 3).toUpperCase() };
+  return {
+    dd: String(dayId || "").slice(-2),
+    mm: String(dayId || "").slice(0, 3).toUpperCase(),
+  };
 }
 
 function isFirstDay() {
@@ -82,12 +86,9 @@ function isLastDay() {
 function dayProgressText() {
   const b = getBlock();
   const i = b.daysOrder.indexOf(state.dayId);
-
   const d = getDay();
   const sd = (d?.shortDate || "").trim();
 
-  // 1) Si shortDate existe, úsalo.
-  // 2) Si no, usa el mismo formato del chip (dd + mm).
   const label = sd
     ? sd.toUpperCase()
     : (() => {
@@ -97,7 +98,6 @@ function dayProgressText() {
 
   return `${label} · ${i + 1}/${b.daysOrder.length}`;
 }
-
 
 function setBlock(idx) {
   state.blockIdx = idx;
@@ -138,6 +138,12 @@ function openGuide(key) {
   state.activeEventIdx = null;
   state.sheetOpen = true;
   state.drawerOpen = false;
+    if (key === "reservas") state.reservasLevel = "nivel1";
+
+
+  // reset filter whenever opening insider
+  if (key === "insider") state.insiderFilter = "All";
+
   renderApp();
 }
 
@@ -191,6 +197,15 @@ function sectionLabelText() {
   return `${dateLabel} · ${tag} ITINERARY`;
 }
 
+function normalizePlaceType(t) {
+  return String(t || "").trim();
+}
+
+function isPlaceVisible(p) {
+  const f = state.insiderFilter;
+  if (!f || f === "All") return true;
+  return normalizePlaceType(p.type) === f;
+}
 
 /* ---------------------------
   RENDER
@@ -334,15 +349,18 @@ function renderDrawer() {
   if (!state.drawerOpen) return "";
 
   const activeId = getBlock().id;
-  const guideKeys = Object.keys(TRIP_DATA.sheets || {});
+
+  // Define buckets (if a sheet key doesn't exist, it simply won't show)
+  const planningKeys = ["guia", "reservas"].filter((k) => TRIP_DATA.sheets?.[k]);
+  const insiderKeys = ["insider"].filter((k) => TRIP_DATA.sheets?.[k]);
 
   return `
     <div class="overlay open" data-action="closeDrawer">
       <div class="drawer" data-stop>
         <div class="drawer__top">
-         <div class="drawer__logo">
-  UK 2026<br/>Itinerario
-</div>
+          <div class="drawer__logo">
+            UK 2026<br/>Itinerario
+          </div>
 
           <button class="btn-icon press" data-action="closeDrawer" aria-label="Close">
             ${icon("x")}
@@ -366,11 +384,32 @@ function renderDrawer() {
         </div>
 
         ${
-          guideKeys.length
+          planningKeys.length
             ? `
-              <div class="drawer__sectionLabel" style="margin-top:22px;">Guides</div>
+              <div class="drawer__sectionLabel" style="margin-top:22px;">Planificación</div>
               <div class="drawer__menu">
-                ${guideKeys
+                ${planningKeys
+                  .map((k) => {
+                    const s = TRIP_DATA.sheets[k];
+                    return `
+                      <button class="menu-item" data-action="openGuide" data-guide="${k}">
+                        <span>${s.title}</span>
+                        ${icon("chevron-right", "icon-sm")}
+                      </button>
+                    `;
+                  })
+                  .join("")}
+              </div>
+            `
+            : ""
+        }
+
+        ${
+          insiderKeys.length
+            ? `
+              <div class="drawer__sectionLabel" style="margin-top:22px;">Insider</div>
+              <div class="drawer__menu">
+                ${insiderKeys
                   .map((k) => {
                     const s = TRIP_DATA.sheets[k];
                     return `
@@ -396,6 +435,126 @@ function renderDrawer() {
     </div>
   `;
 }
+
+function renderInsiderSheet(sheet) {
+  const filters = sheet.filters || ["All"];
+  const places = (sheet.places || []).filter(isPlaceVisible);
+
+  return `
+    <div class="sheet__body">
+      <div class="insider-filters">
+        ${filters
+          .map((f) => {
+            const active = state.insiderFilter === f;
+            return `
+              <button class="filter-chip ${active ? "active" : ""}"
+                data-action="setInsiderFilter"
+                data-filter="${f}">
+                ${f}
+              </button>
+            `;
+          })
+          .join("")}
+      </div>
+
+      <div class="place-grid">
+        ${places
+          .map((p) => {
+            const pr = p.priority === "gold" ? "gold" : "normal";
+            return `
+              <div class="place-card ${pr}">
+                <div class="place-top">
+                  <div class="place-name">${p.name}</div>
+                  <div class="place-type">${p.type}</div>
+                </div>
+                <div class="place-city">${p.city}</div>
+                <div class="place-note">${p.note || ""}</div>
+              </div>
+            `;
+          })
+          .join("")}
+      </div>
+
+      ${
+        places.length === 0
+          ? `<div class="insider-empty">No hay resultados con este filtro. Prueba otro.</div>`
+          : ""
+      }
+    </div>
+  `;
+}
+
+function renderReservasSheet(sheet) {
+  const levels = sheet.levels || [];
+  const active = levels.find((l) => l.key === state.reservasLevel) || levels[0];
+
+  if (!active) return `<div class="sheet__body"></div>`;
+
+  return `
+    <div class="sheet__body">
+
+      <div class="res-tabs">
+        ${levels
+          .map((l) => {
+            const on = l.key === active.key;
+            return `
+              <button class="res-tab ${on ? "active" : ""}"
+                data-action="setReservasLevel"
+                data-level="${l.key}">
+                <span class="res-tab__label">${l.label}</span>
+                <span class="res-tab__sub">${l.subtitle}</span>
+              </button>
+            `;
+          })
+          .join("")}
+      </div>
+
+      <div class="res-wrap ${active.tone || ""}">
+        ${(active.cities || [])
+          .map((c, i) => {
+            const items = c.items || [];
+            return `
+              <details class="res-city" ${i === 0 ? "open" : ""}>
+                <summary class="res-city__sum">
+                  <span class="res-city__name">${c.name}</span>
+                  <span class="res-city__count">${items.length}</span>
+                </summary>
+
+                <div class="res-list">
+                  ${items
+                    .map(
+                      (it) => `
+                        <div class="res-card">
+                          <div class="res-card__top">
+                            <div class="res-card__title">${it.title || ""}</div>
+                            <div class="res-pill">Cuándo: ${it.when || ""}</div>
+                          </div>
+                          <div class="res-card__why">${it.why || ""}</div>
+                        </div>
+                      `
+                    )
+                    .join("")}
+                </div>
+              </details>
+            `;
+          })
+          .join("")}
+
+        ${
+          sheet.proTip
+            ? `
+              <div class="res-callout">
+                <div class="res-callout__title">${sheet.proTip.title}</div>
+                <div class="res-callout__text">${sheet.proTip.text}</div>
+              </div>
+            `
+            : ""
+        }
+      </div>
+    </div>
+  `;
+}
+
 
 function renderSheet() {
   const isOpen = state.sheetOpen ? "open" : "";
@@ -424,18 +583,27 @@ function renderSheet() {
             </button>
           </div>
 
-          <div class="sheet__body">
-            ${(sheet.content || [])
-              .map(
-                (it) => `
-                  <div class="detail-block">
-                    <span class="detail-label">${it.title}</span>
-                    <p class="detail-text">${it.text}</p>
-                  </div>
-                `
-              )
-              .join("")}
-          </div>
+                   ${
+            sheet.kind === "insider"
+              ? renderInsiderSheet(sheet)
+              : sheet.kind === "reservas"
+              ? renderReservasSheet(sheet)
+              : `
+                <div class="sheet__body">
+                  ${(sheet.content || [])
+                    .map(
+                      (it) => `
+                        <div class="detail-block">
+                          <span class="detail-label">${it.title}</span>
+                          <p class="detail-text">${String(it.text || "").replace(/\n/g, "<br/>")}</p>
+                        </div>
+                      `
+                    )
+                    .join("")}
+                </div>
+              `
+          }
+
         </div>
       </div>
     `;
@@ -462,47 +630,70 @@ function renderSheet() {
         </div>
 
         <div class="sheet__body">
-          ${evt.desc ? `
+          ${
+            evt.desc
+              ? `
             <div class="detail-block">
               <span class="detail-label">Description</span>
               <p class="detail-text">${evt.desc}</p>
-            </div>` : ""}
+            </div>`
+              : ""
+          }
 
-          ${evt.details && evt.details.length ? `
+          ${
+            evt.details && evt.details.length
+              ? `
             <div class="detail-block">
               <span class="detail-label">Concierge Notes</span>
               <ul class="detail-list">
                 ${evt.details.map((d) => `<li>${icon("check-circle", "icon-sm")}<span>${d}</span></li>`).join("")}
               </ul>
-            </div>` : ""}
+            </div>`
+              : ""
+          }
 
-          ${evt.options && evt.options.length ? `
+          ${
+            evt.options && evt.options.length
+              ? `
             <div class="detail-block sheet-options">
               <span class="detail-label">Options</span>
-              ${evt.options.map((op) => `
+              ${evt.options
+                .map(
+                  (op) => `
                 <div class="opt">
                   <div class="opt-title">${op.title}</div>
                   <div class="opt-desc">${op.text}</div>
                 </div>
-              `).join("")}
-            </div>` : ""}
+              `
+                )
+                .join("")}
+            </div>`
+              : ""
+          }
 
-          ${evt.tips && evt.tips.length ? `
+          ${
+            evt.tips && evt.tips.length
+              ? `
             <div class="detail-block">
               <span class="detail-label">Tips</span>
               <div class="tips-row">
                 ${evt.tips.map((t) => `<span class="tip-pill ${goldTip(t) ? "gold" : ""}">${t}</span>`).join("")}
               </div>
-            </div>` : ""}
+            </div>`
+              : ""
+          }
 
-          ${evt.notes ? `
+          ${
+            evt.notes
+              ? `
             <div class="detail-block insider">
               <span class="detail-label">Insider Tip</span>
               <p class="detail-text">${evt.notes}</p>
-            </div>` : ""}
+            </div>`
+              : ""
+          }
 
           <button class="cta press" data-action="closeSheet">Cerrar detalles</button>
-
         </div>
       </div>
     </div>
@@ -527,17 +718,15 @@ function renderApp() {
 }
 
 /* ---------------------------
-  EVENTS (FIX: drawer links now work)
+  EVENTS
 --------------------------- */
 app.addEventListener("click", (e) => {
   const actionEl = e.target.closest("[data-action]");
   const insideStop = !!e.target.closest("[data-stop]");
 
-  // If click has an action, handle it (even inside drawer/sheet)
+  // 1) Si hay acción, manejarla
   if (actionEl) {
     const action = actionEl.getAttribute("data-action");
-
-    // prevent overlay-close when clicking inside drawer/sheet
 
     if (action === "openDrawer") return toggleDrawer(true);
     if (action === "closeDrawer") return toggleDrawer(false);
@@ -567,16 +756,34 @@ app.addEventListener("click", (e) => {
 
     if (action === "openGuideDefault") {
       const keys = Object.keys(TRIP_DATA.sheets || {});
-      const k = TRIP_DATA.sheets?.transporte ? "transporte" : keys[0];
-      if (k) return openGuide(k);
+      const prefer = TRIP_DATA.sheets?.guia
+        ? "guia"
+        : TRIP_DATA.sheets?.reservas
+        ? "reservas"
+        : keys[0];
+
+      if (prefer) return openGuide(prefer);
       return;
+    }
+
+    // ✅ FIX: aquí va este handler (ya existe action y actionEl)
+    if (action === "setReservasLevel") {
+      const lv = actionEl.getAttribute("data-level") || "nivel1";
+      state.reservasLevel = lv;
+      return renderApp();
+    }
+
+    if (action === "setInsiderFilter") {
+      const f = actionEl.getAttribute("data-filter") || "All";
+      state.insiderFilter = f;
+      return renderApp();
     }
 
     if (action === "closeSheet") return closeSheet();
     return;
   }
 
-  // If no action: clicking overlay background closes (but not inside drawer/sheet)
+  // 2) Si NO hay acción: clic en overlay cierra (pero no si es dentro del sheet/drawer)
   const overlay = e.target.closest(".overlay.open");
   if (overlay && !insideStop) {
     if (state.drawerOpen) return toggleDrawer(false);
@@ -584,8 +791,10 @@ app.addEventListener("click", (e) => {
   }
 });
 
+
 /* Swipe day nav (only when no overlay) */
-let sx = 0, sy = 0;
+let sx = 0,
+  sy = 0;
 let swipeFromDayNav = false;
 
 window.addEventListener(
@@ -594,8 +803,6 @@ window.addEventListener(
     const t = e.touches[0];
     sx = t.clientX;
     sy = t.clientY;
-
-    // Si el gesto inicia dentro del carrusel de fechas, NO hacemos swipe de días
     swipeFromDayNav = !!e.target.closest(".daynav");
   },
   { passive: true }
