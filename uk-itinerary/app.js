@@ -178,8 +178,19 @@ function typeToTag(type) {
 
 function sectionLabelText() {
   const d = getDay();
-  return `${(d.tag || d.shortTag || "ITINERARY").toUpperCase()} ITINERARY`;
+
+  const sd = (d?.shortDate || "").trim();
+  const dateLabel = sd
+    ? sd.toUpperCase()
+    : (() => {
+        const { dd, mm } = dayChipParts(d, state.dayId);
+        return `${dd} ${mm}`.toUpperCase();
+      })();
+
+  const tag = (d.tag || d.shortTag || "ITINERARY").toUpperCase();
+  return `${dateLabel} · ${tag} ITINERARY`;
 }
+
 
 /* ---------------------------
   RENDER
@@ -575,21 +586,38 @@ app.addEventListener("click", (e) => {
 
 /* Swipe day nav (only when no overlay) */
 let sx = 0, sy = 0;
-window.addEventListener("touchstart", (e) => {
-  const t = e.touches[0];
-  sx = t.clientX;
-  sy = t.clientY;
-}, { passive: true });
+let swipeFromDayNav = false;
 
-window.addEventListener("touchend", (e) => {
-  if (state.drawerOpen || state.sheetOpen) return;
-  const t = e.changedTouches[0];
-  const dx = t.clientX - sx;
-  const dy = t.clientY - sy;
-  if (Math.abs(dx) < 70) return;
-  if (Math.abs(dy) > 70) return;
-  if (dx < 0) nextDay();
-  if (dx > 0) prevDay();
-}, { passive: true });
+window.addEventListener(
+  "touchstart",
+  (e) => {
+    const t = e.touches[0];
+    sx = t.clientX;
+    sy = t.clientY;
+
+    // Si el gesto inicia dentro del carrusel de fechas, NO hacemos swipe de días
+    swipeFromDayNav = !!e.target.closest(".daynav");
+  },
+  { passive: true }
+);
+
+window.addEventListener(
+  "touchend",
+  (e) => {
+    if (state.drawerOpen || state.sheetOpen) return;
+    if (swipeFromDayNav) return;
+
+    const t = e.changedTouches[0];
+    const dx = t.clientX - sx;
+    const dy = t.clientY - sy;
+
+    if (Math.abs(dx) < 70) return;
+    if (Math.abs(dy) > 70) return;
+
+    if (dx < 0) nextDay();
+    if (dx > 0) prevDay();
+  },
+  { passive: true }
+);
 
 renderApp();
