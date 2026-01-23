@@ -7,7 +7,6 @@ export const edinburgh = {
   base: "West End / Princes Street (muy cómodo)",
   daysOrder: ["abr05", "abr06", "abr07", "abr08", "abr09", "abr10"],
 
-  // (Opcional) si tu app muestra “reglas del bloque” como módulo aparte:
   rules: {
     title: "CLAVE DE LOGÍSTICA",
     subtitle: "Edimburgo premium = cero fricción con clima y maletas.",
@@ -15,6 +14,8 @@ export const edinburgh = {
       "Con maletas / viento / lluvia: taxi (vale cada libra).",
       "En días fuertes: máximo 1 subida grande. Arthur’s Seat cuenta como subida grande.",
       "Pubs: 1 parada fuerte por noche. Mejor half pints y flights que maratón.",
+      "Si el viento está duro: cambien colinas por miradores urbanos + museos + pubs.",
+      "Reservas clave: Castillo (slot), cenas foodie (Kitchin / Little Chartroom), spa si quieren tratamiento.",
     ],
   },
 
@@ -111,7 +112,7 @@ export const edinburgh = {
     // ------------------------------------------------------------
     abr06: {
       tag: "CASTILLO",
-      title: "Día 7 | Castillo + Old Town curado + museo + Leith (beer/whisky) + cena top",
+      title: "Día 7 | Castillo + Old Town curado + museo + Leith + cena top",
       goal: "El core de Edimburgo con todos: historia + diseño + foodie/whisky sin maratón.",
       events: [
         {
@@ -198,11 +199,11 @@ export const edinburgh = {
           subTitle: "Dosis perfecta",
           details: [
             "Ruta recomendada: Grand Gallery + 2 áreas (no intentar todo).",
-            "Para Osvaldo: ciencia/ingeniería. Para ustedes: museografía/espacio.",
+            "Arquitectos: museografía/espacio. (Sin depender de ir con Osvaldo).",
           ],
           options: [
-            { title: "Ruta A (técnica)", text: "Ciencia/ingeniería para Osvaldo." },
-            { title: "Ruta B (diseño)", text: "Arquitectura interior y montaje." },
+            { title: "Ruta A (rápida)", text: "Grand Gallery + 2 áreas y listo." },
+            { title: "Ruta B (más diseño)", text: "Elegir 2 áreas de diseño/espacio y salir." },
           ],
           tips: ["No ver todo", "2 áreas", "Reset mental"],
           notes: "Museo dosificado = tarde con energía.",
@@ -231,7 +232,7 @@ export const edinburgh = {
           title: "Taxi a Leith Shore",
           icon: "car",
           desc: "Taxi recomendado para llegar frescos al bloque beer/whisky.",
-          subTitle: "Guardar energía para lo bueno",
+          subTitle: "Guardar energía",
           details: [
             "Con grupo, taxi suele ser lo más eficiente.",
             "Leith vale por comida/pubs: no lleguen fundidos.",
@@ -240,7 +241,7 @@ export const edinburgh = {
             { title: "Opción A - Taxi", text: "Recomendado: cero fricción." },
             { title: "Opción B - Público", text: "Solo si el clima está perfecto y van con tiempo." },
           ],
-          tips: ["Taxi", "No inventar", "Llegar con energía"],
+          tips: ["Taxi", "Llegar con energía"],
           notes: "Leith es el acto foodie del día.",
         },
         {
@@ -249,15 +250,15 @@ export const edinburgh = {
           title: "Pub Session: Teuchters Landing (walk-in)",
           icon: "beer",
           desc:
-            "Beer + whisky sin formalidad. Degustación inteligente: half pints + 1 whisky por persona (o flight para compartir).",
-          subTitle: "Half pints + flights",
+            "Beer + whisky sin formalidad. Half pints + 1 whisky por persona (o flight para compartir).",
+          subTitle: "Degustación inteligente",
           details: [
             "Half pints para probar 2 estilos sin cansarse.",
             "Whisky: 1 dram por persona máximo, o flight para compartir.",
           ],
           options: [
             { title: "Modo beer", text: "Half pint cask + half pint stout/porter." },
-            { title: "Modo whisky", text: "Flight compartido (mejor que 2 whiskies)." },
+            { title: "Modo whisky", text: "Flight compartido (smart)." },
           ],
           tips: ["Half pints", "1 whisky máximo", "1 parada fuerte"],
           notes: "Premium = calidad, no cantidad.",
@@ -265,13 +266,13 @@ export const edinburgh = {
         {
           time: "18:30",
           type: "cena",
-          title: "Cena top (con todos)",
+          title: "Cena top",
           icon: "utensils",
           desc: "Elijan según reserva y mood. La meta: cierre alto sin logística pesada.",
           subTitle: "Cerrar alto",
           details: [
             "Opción A: The Little Chartroom (si logran reserva).",
-            "Opción B: The Kitchin (gran cena hoy, mañana más chill).",
+            "Opción B: The Kitchin (gran cena hoy y mañana más chill).",
             "Opción C: Barry Fish (casual-top mariscos).",
           ],
           options: [
@@ -279,7 +280,7 @@ export const edinburgh = {
             { title: "Opción B - Kitchin", text: "Gran cena elegante." },
             { title: "Opción C - Barry Fish", text: "Casual-top mariscos." },
           ],
-          tips: ["Reservas ayudan", "No cruzar la ciudad", "Cierre corto"],
+          tips: ["Reservas ayudan", "Cierre corto"],
           notes: "Después del castillo, la cena debe sentirse fácil.",
         },
         {
@@ -305,30 +306,30 @@ export const edinburgh = {
 
     // ------------------------------------------------------------
     // DÍA 8 — Mar 7 Abr | Arthur’s Seat + Holyrood + New Town/Stockbridge + cena/pubs
+    // (Aquí todavía están todos. Al final del día, Fis + Osvaldo se van a su hike)
     // ------------------------------------------------------------
     abr07: {
       tag: "ARTHUR",
       title: "Día 8 | Arthur’s Seat + Holyrood + New Town/Stockbridge + cena/pubs",
-      goal: "La gran subida con todos temprano + cerrar con vibes y cena buena sin maratón.",
+      goal: "Meter la gran subida con todos temprano y cerrar bien antes de que Fis + Osvaldo se vayan al hike.",
       events: [
         {
           time: "07:00",
           type: "hike",
-          title: "Arthur’s Seat (Plan A: temprano)",
+          title: "Arthur’s Seat (temprano)",
           icon: "mountain",
           desc: "Subida + vistas. Ruta recomendada: la más amable (sin trepadas técnicas).",
           subTitle: "Subida grande del día",
           details: [
             "Ropa por capas + viento. Guantes delgados ayudan muchísimo.",
-            "Regla de oro: si arriba hay viento durísimo, foto rápida y bajar.",
-            "Esto cuenta como la subida grande del día: no metan otra fuerte.",
+            "Regla: si arriba hay viento durísimo, foto rápida y bajar.",
           ],
           options: [
-            { title: "Modo pro", text: "Llegar temprano = menos gente y mejor luz." },
-            { title: "Modo clima", text: "Si el viento es brutal: cumbre rápida y bajan." },
+            { title: "Modo pro", text: "Temprano = menos gente y mejor luz." },
+            { title: "Modo clima", text: "Cumbre rápida si el viento castiga." },
           ],
-          tips: ["Capas", "Guantes", "Foto y bajar", "No forzar"],
-          notes: "Edimburgo arriba puede ser castigo si el viento se prende.",
+          tips: ["Capas", "Guantes", "Foto y bajar"],
+          notes: "Arthur’s Seat cuenta como la subida grande del día.",
         },
         {
           time: "09:45",
@@ -342,8 +343,8 @@ export const edinburgh = {
             "No alargar demasiado: el día sigue.",
           ],
           options: [
-            { title: "Modo completo", text: "Desayuno sentado, sin prisa, pero sin sobremesa eterna." },
-            { title: "Modo eficiente", text: "Comer bien y seguir para Holyrood." },
+            { title: "Modo completo", text: "Sentados y ricos, pero sin sobremesa eterna." },
+            { title: "Modo eficiente", text: "Comer bien y seguir." },
           ],
           tips: ["Algo caliente", "Proteína", "Agua"],
           notes: "Post-hike bien hecho = tarde agradable.",
@@ -360,10 +361,10 @@ export const edinburgh = {
             "Fotos rápidas y seguir.",
           ],
           options: [
-            { title: "Modo foto", text: "10–20 fotos buenas y listo." },
-            { title: "Modo chill", text: "Paseo tranquilo y regreso a comer." },
+            { title: "Modo foto", text: "Fotos clave y listo." },
+            { title: "Modo chill", text: "Paseo tranquilo y regreso." },
           ],
-          tips: ["Corto", "Sin museo pesado", "Mantener ritmo"],
+          tips: ["Corto", "Mantener ritmo"],
           notes: "Hoy ya fue físico: no se saturen.",
         },
         {
@@ -378,7 +379,7 @@ export const edinburgh = {
             { title: "Plan A", text: "Pub moderno con comida sólida." },
             { title: "Plan B", text: "Casual bueno, rápido y cercano." },
           ],
-          tips: ["Evitar filas", "Ligero-medio", "Agua"],
+          tips: ["Evitar filas", "Agua"],
           notes: "Lunch corto = tarde más rica.",
         },
         {
@@ -396,158 +397,183 @@ export const edinburgh = {
             { title: "Modo diseño", text: "Tiendas puntuales y listo." },
             { title: "Modo chill", text: "Café + paseo corto." },
           ],
-          tips: ["Suave", "No cruzar media ciudad", "Café corto"],
+          tips: ["Suave", "Café corto"],
           notes: "Aquí se nota el lujo de balancear.",
         },
         {
           time: "17:00",
           type: "pub",
-          title: "Pub Session 2 (con todos) - sin maratón",
+          title: "Pub Session (corta) - sin maratón",
           icon: "beer",
-          desc: "Un pub con buena selección. Si quieren más local: vibe de barrio, no ultra turístico.",
-          subTitle: "1 parada fuerte",
+          desc: "1 parada corta para cerrar el día sin reventarse.",
+          subTitle: "Half pints / flight compartido",
           details: [
             "Half pints para probar más sin cansarse.",
-            "Flight compartido si quieren whisky.",
+            "Whisky: flight compartido si quieren.",
           ],
           options: [
-            { title: "Modo cerveza", text: "2 half pints máximo por persona." },
-            { title: "Modo whisky", text: "Flight compartido (smart)." },
+            { title: "Modo cerveza", text: "1–2 half pints máximo." },
+            { title: "Modo whisky", text: "1 flight compartido (smart)." },
           ],
-          tips: ["Half pints", "Flight", "No maratón"],
-          notes: "El objetivo es llegar perfectos a cena.",
+          tips: ["Corto", "No maratón"],
+          notes: "La meta es llegar bien a cena.",
         },
         {
           time: "19:30",
           type: "cena",
           title: "Cena (cierre con todos)",
           icon: "utensils",
-          desc: "Si ayer hicieron un estilo, hoy cambien la cara para variedad.",
-          subTitle: "Cerrar alto sin estrés",
+          desc: "Cena rica sin logística pesada. Cierre temprano recomendado.",
+          subTitle: "Fácil y buena",
           details: [
-            "Si ayer fue Little Chartroom, hoy otra cara.",
-            "Si ayer no fue Kitchin, hoy puede ser el gran cierre.",
+            "Hoy conviene cero complicación: cerca o Leith si ya están allá.",
+            "Cierre temprano: mañana se separa el grupo.",
           ],
           options: [
-            { title: "Opción A - The Kitchin", text: "Si no fue ayer: gran cena hoy." },
-            { title: "Opción B - Barry Fish", text: "Más casual, igual top." },
-            { title: "Opción C - Pub auténtico", text: "Comida sólida + buena lista de whisky." },
+            { title: "Opción A - Foodie", text: "Si hay reserva y ganas: cierre alto." },
+            { title: "Opción B - Casual-top", text: "Rico y sin presión." },
           ],
-          tips: ["No traslados largos", "Cierre corto", "Dormir manda"],
-          notes: "Después de Arthur’s Seat, la noche debe ser fácil.",
+          tips: ["Cerca", "Cierre corto", "Dormir manda"],
+          notes: "Cierre smart para despedir el día fuerte.",
         },
         {
-          time: "PLAN B",
-          type: "contingencia",
-          title: "Si amanece horrible y Arthur’s Seat no se puede",
-          icon: "cloud-rain",
-          desc:
-            "Cambien Arthur’s Seat por Calton Hill (corto). Arthur’s Seat queda como ventana alternativa: 06:00–08:30 del 7 o atardecer del 6 si baja el viento (solo si el grupo trae ganas).",
-          subTitle: "Clima manda",
+          time: "22:00",
+          type: "logística",
+          title: "Fis + Osvaldo se van al hike (desde mañana ya no están en Edimburgo)",
+          icon: "backpack",
+          desc: "A partir del 8 se separan y ustedes siguen Edimburgo en modo city + foto + pubs + descanso.",
+          subTitle: "Cambio de grupo",
           details: [
-            "Calton Hill: corto, fotogénico y menos castigo.",
-            "Arthur’s Seat solo si el viento baja y el grupo está con ganas.",
+            "Confirmar punto de salida/encuentro para el día 11.",
+            "Ustedes: plan más urbano y flexible.",
           ],
           options: [
-            { title: "Plan B1 - Calton", text: "Subida corta y fotos." },
-            { title: "Plan B2 - Ventana Arthur", text: "Solo si el clima se abre y el grupo quiere." },
+            { title: "Checklist", text: "Definir hora/lugar para volver a verse el día 11." },
+            { title: "Modo pro", text: "Dormir temprano: mañana es Edimburgo sin hikes." },
           ],
-          tips: ["No pelear con el clima", "Corto", "Foto y bajar"],
-          notes: "Ganar el día > insistir en el hike.",
+          tips: ["Definir punto día 11", "Dormir temprano"],
+          notes: "Perfecto: así el bloque se siente más ligero y curado.",
         },
       ],
     },
 
     // ------------------------------------------------------------
-    // DÍA 9 — Mié 8 Abr | Split: Osvaldo+Fisha hike / resto Rosslyn + One Spa + cena casual-top
+    // DÍA 9 — Mié 8 Abr | Ustedes solos (Fis + Osvaldo en hike)
     // ------------------------------------------------------------
     abr08: {
-      tag: "SPLIT",
-      title: "Día 9 | Hike para ellos + Rosslyn + One Spa para el resto",
-      goal: "Osvaldo + Fisha con naturaleza real, y el resto un día premium (Rosslyn + spa + cena) sin fricción.",
+      tag: "RECOVERY",
+      title: "Día 9 | Ustedes solos: Rosslyn + One Spa + cena fácil",
+      goal: "Día premium sin presión: arquitectura brutal + spa + cena rica y sencilla.",
       events: [
         {
-          time: "Temprano",
-          type: "hike",
-          title: "Hike Day (Osvaldo + Fisha)",
-          icon: "leaf",
-          desc: "Naturaleza real sin volver destruidos: ritmo constante, paradas cortas, snacks + agua.",
-          subTitle: "Ritmo constante",
-          details: [
-            "Salida temprano con snacks + agua + capa impermeable.",
-            "Regla: no volver destruidos. Mantener ritmo y descansos cortos.",
-          ],
+          time: "08:30",
+          type: "desayuno",
+          title: "Desayuno tranquilo (sin prisa)",
+          icon: "coffee",
+          desc: "Hoy no hay hike. Arranque suave pero sin perder el día.",
+          subTitle: "Balance",
+          details: ["Café + algo salado. Capas si el viento está raro."],
           options: [
-            { title: "Modo pro", text: "Ritmo constante + paradas cortas." },
-            { title: "Modo clima", text: "Si el viento está duro, ruta más corta y smart." },
+            { title: "Modo balance", text: "Desayuno decente y a moverse." },
+            { title: "Modo eficiente", text: "Rápido y directo a Rosslyn." },
           ],
-          tips: ["Snacks", "Agua", "Impermeable", "No volver destruidos"],
-          notes: "Este día es para disfrutar naturaleza, no para sufrirla.",
+          tips: ["Capas", "Agua", "No alargar demasiado"],
+          notes: "Hoy el lujo es ritmo suave.",
+        },
+        {
+          time: "09:45",
+          type: "transporte",
+          title: "Taxi a Rosslyn (recomendado)",
+          icon: "car",
+          desc: "Cero fricción. Llegan tranquilos y se disfruta más.",
+          subTitle: "Puerta a puerta",
+          details: ["Taxi recomendado para evitar cambios y esperas."],
+          options: [
+            { title: "Opción A - Taxi", text: "La opción práctica y premium." },
+            { title: "Opción B - Público", text: "Solo si el clima está perfecto y con tiempo." },
+          ],
+          tips: ["Taxi", "Buffer", "Slot si reservan"],
+          notes: "Rosslyn vale llegar con calma.",
         },
         {
           time: "10:15",
           type: "visita",
-          title: "Rosslyn Chapel (arquitectura brutal) - resto del grupo",
+          title: "Rosslyn Chapel (slot recomendado)",
           icon: "landmark",
-          desc: "Slot recomendado. Dividirse por detalle/estructura/simbolismo y luego compartir hallazgos.",
-          subTitle: "Bloque pesado (arquitectura)",
+          desc: "Detalle brutal. Dividirse por temas y luego compartir hallazgos.",
+          subTitle: "Arquitectura y simbología",
           details: [
-            "Reservar slot para evitar esperas.",
-            "Dividirse por enfoque y compartir hallazgos al final.",
+            "Reservar slot evita esperas.",
+            "Dividirse por enfoque: detalle / estructura / simbolismo.",
           ],
           options: [
             { title: "Modo detalle", text: "Texturas, tallas, patrones, luz." },
             { title: "Modo estructura", text: "Lectura espacial y constructiva." },
           ],
-          tips: ["Slot", "No correr", "Compartir hallazgos"],
-          notes: "Rosslyn es de esos lugares que valen mirarse con calma.",
+          tips: ["Slot", "No correr", "Fotos selectivas"],
+          notes: "Este lugar se mira con calma.",
         },
         {
-          time: "13:30",
+          time: "13:00",
+          type: "comida",
+          title: "Lunch ligero (ideal cerca del hotel)",
+          icon: "utensils",
+          desc: "Comer simple para entrar al spa sin fricción.",
+          subTitle: "Ligero y práctico",
+          details: ["Sándwich/ensalada/sopa y listo. Sin exceso."],
+          options: [
+            { title: "Modo práctico", text: "Ligero y rápido." },
+            { title: "Modo pub light", text: "Algo salado sin pasarse." },
+          ],
+          tips: ["Ligero", "Agua", "Cerca"],
+          notes: "Spa + comida pesada nunca gana.",
+        },
+        {
+          time: "14:30",
           type: "spa",
-          title: "One Spa (Sheraton) - recovery total",
+          title: "One Spa (Sheraton) — recovery total",
           icon: "sparkles",
           desc: "Steam/sauna/pool + lounge. Parte del plan premium.",
           subTitle: "Recuperación real",
           details: [
-            "Circuito: steam/sauna/pool + lounge.",
-            "Si quieren tratamiento: reserven horario. Si no, acceso general basta.",
+            "Circuito sugerido: steam/sauna/pool + lounge.",
+            "Si quieren tratamiento: reserven horario.",
           ],
           options: [
             { title: "Modo circuito", text: "Alternar steam/sauna + descanso." },
             { title: "Modo tratamiento", text: "Reservar y llegar con buffer." },
           ],
           tips: ["Hidratación", "No prisa", "Reservar si tratamiento"],
-          notes: "Este bloque hace que el resto del viaje se sienta ligero.",
+          notes: "Esto hace que el viaje no se sienta maratón.",
         },
         {
           time: "19:30",
           type: "cena",
-          title: "Cena casual-top (cerca o Leith)",
+          title: "Cena casual-top (cerca / Leith si les queda cómodo)",
           icon: "utensils",
-          desc: "Algo rico sin presión de reserva para no depender del regreso del hike.",
-          subTitle: "Fácil y bueno",
+          desc: "Sin presión de reserva. Rico, corto y a dormir.",
+          subTitle: "Fácil",
           details: [
-            "Cerca del hotel o en Leith, sin cruzar la ciudad.",
+            "Mantenerlo cerca para no sumar traslados.",
             "Cierre corto: mañana Old Town + golden hour.",
           ],
           options: [
             { title: "Plan A - Cerca", text: "Casual-top cerca del Sheraton." },
-            { title: "Plan B - Leith", text: "Si les queda cómodo y sin logística pesada." },
+            { title: "Plan B - Leith", text: "Solo si les queda cómodo y sin logística pesada." },
           ],
-          tips: ["Sin presión", "Cerca", "Cierre corto"],
-          notes: "Hoy manda la flexibilidad.",
+          tips: ["Cerca", "Cierre corto"],
+          notes: "Edimburgo premium = logística fácil.",
         },
       ],
     },
 
     // ------------------------------------------------------------
-    // DÍA 10 — Jue 9 Abr | Old Town fino + Victoria St/Grassmarket + golden hour + noche escocesa
+    // DÍA 10 — Jue 9 Abr | Ustedes solos: Old Town fino + golden hour + noche escocesa
     // ------------------------------------------------------------
     abr09: {
       tag: "OLD TOWN",
-      title: "Día 10 | Old Town fino + Victoria St + Calton golden hour + noche escocesa",
-      goal: "Old Town curado y fotogénico (no turístico pesado), cerrar con Calton en golden hour y una noche auténtica sin maratón.",
+      title: "Día 10 | Ustedes solos: Old Town fino + Calton + noche escocesa",
+      goal: "Old Town curado (fotogénico, no turístico pesado) + Calton en golden hour + cena auténtica sin maratón.",
       events: [
         {
           time: "09:00",
@@ -556,16 +582,13 @@ export const edinburgh = {
           icon: "coffee",
           desc: "Balanceado y sin filas largas. Hoy manda la luz de tarde.",
           subTitle: "Arranque limpio",
-          details: [
-            "No sobremesa eterna.",
-            "Capas: el viento aparece cuando menos esperas.",
-          ],
+          details: ["No sobremesa eterna. Capas listas."],
           options: [
             { title: "Modo balance", text: "Café + algo salado y listo." },
             { title: "Modo eficiente", text: "To-go si el clima está raro." },
           ],
           tips: ["No alargar", "Capas", "Agua"],
-          notes: "El día se gana con ritmo, no con desayuno eterno.",
+          notes: "El día se gana con ritmo.",
         },
         {
           time: "10:15",
@@ -579,11 +602,11 @@ export const edinburgh = {
             "Buscar laterales: ahí sale la foto cinema.",
           ],
           options: [
-            { title: "Modo cine", text: "1 close con faroles + 1 con escaleras y listo." },
+            { title: "Modo cine", text: "1 close con faroles + 1 con escaleras." },
             { title: "Modo eficiente", text: "Victoria Street primero si hay mucha gente." },
           ],
-          tips: ["2–3 closes", "Buscar laterales", "Mantener ritmo"],
-          notes: "Menos = más. Old Town se siente premium con curaduría.",
+          tips: ["2–3 closes", "Buscar laterales"],
+          notes: "Curaduría = premium.",
         },
         {
           time: "12:45",
@@ -592,15 +615,12 @@ export const edinburgh = {
           icon: "utensils",
           desc: "45–60 min máximo para no romper el día.",
           subTitle: "Corto",
-          details: [
-            "Street o pub lunch cercano.",
-            "Evitar cruzar media ciudad.",
-          ],
+          details: ["Cerca. Evitar cruzar media ciudad."],
           options: [
             { title: "Opción A - Pub lunch", text: "Cómodo y caliente." },
-            { title: "Opción B - Street", text: "Más ágil y mantiene el ritmo." },
+            { title: "Opción B - Street", text: "Ágil y mantiene ritmo." },
           ],
-          tips: ["Corto", "Cerca", "Agua"],
+          tips: ["Corto", "Cerca"],
           notes: "Lunch inteligente = golden hour disfrutado.",
         },
         {
@@ -608,18 +628,18 @@ export const edinburgh = {
           type: "tiempo-libre",
           title: "Tiempo libre (shops / cafés / mini galería)",
           icon: "shopping-bag",
-          desc: "Bloque flexible: aquí se nota el cansancio acumulado. Mantenerlo ligero.",
+          desc: "Bloque flexible para cansancio acumulado. Mantenerlo ligero.",
           subTitle: "Flexible",
           details: [
             "Paseo corto, café, tiendas puntuales.",
-            "Si el clima se pone feo, prioricen interior y calidez.",
+            "Si el clima se pone feo, priorizar interior y calidez.",
           ],
           options: [
             { title: "Modo chill", text: "Café + paseo corto." },
             { title: "Modo diseño", text: "Tiendas puntuales y listo." },
           ],
-          tips: ["Flexible", "No cruzar la ciudad", "Café corto"],
-          notes: "Este bloque es su amortiguador de cansancio.",
+          tips: ["Flexible", "Café corto"],
+          notes: "Este bloque es su amortiguador.",
         },
         {
           time: "17:30",
@@ -633,11 +653,11 @@ export const edinburgh = {
             "Capas: arriba pega fuerte.",
           ],
           options: [
-            { title: "Modo pro", text: "Llegar con tiempo y hacer fotos rápidas." },
+            { title: "Modo pro", text: "Fotos rápidas y bajar." },
             { title: "Modo clima", text: "Si está imposible: mirador urbano + bar." },
           ],
           tips: ["Corto", "Capas", "Foto y bajar"],
-          notes: "Calton bien hecho = postal final sin desgaste.",
+          notes: "Postal final sin desgaste.",
         },
         {
           time: "19:45",
@@ -647,13 +667,13 @@ export const edinburgh = {
           desc: "Whisky sin maratón. Una sola parada fuerte y cierre bonito.",
           subTitle: "Auténtico",
           details: [
-            "Ideal: música en vivo o pub clásico con buena lista de whisky.",
+            "Música en vivo o pub clásico con buena lista de whisky.",
             "Regla: una sola parada fuerte. No trasnochar demasiado.",
           ],
           options: [
-            { title: "Opción A - Música en vivo", text: "Vibe local y memorable." },
+            { title: "Opción A - Música", text: "Vibe local y memorable." },
             { title: "Opción B - Pub clásico", text: "Whisky + cena sin complicarse." },
-            { title: "Opción C - Foodie", text: "Cierre elegante si el grupo lo pide." },
+            { title: "Opción C - Foodie", text: "Cierre elegante si se antoja." },
           ],
           tips: ["1 parada fuerte", "Half pints/flights", "Dormir temprano"],
           notes: "Mañana hay tren: cierre bonito, no tarde.",
@@ -663,6 +683,7 @@ export const edinburgh = {
 
     // ------------------------------------------------------------
     // DÍA 11 — Vie 10 Abr | Check-out + estación + tren a Londres (logística)
+    // (Fis + Osvaldo siguen en hike; no los ven hasta el día 11)
     // ------------------------------------------------------------
     abr10: {
       tag: "TREN",
