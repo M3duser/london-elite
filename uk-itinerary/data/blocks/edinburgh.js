@@ -311,7 +311,7 @@ export const edinburgh = {
     abr07: {
       tag: "ARTHUR",
       title: "Día 8 | Arthur’s Seat + Holyrood + New Town/Stockbridge + cena/pubs",
-      goal: "Meter la gran subida con todos temprano y cerrar bien antes de que Fis + Osvaldo se vayan al hike.",
+      goal: "Meter la gran subida con todos temprano y cerrar bien antes de que Fisha + Osvaldo se vayan al hike.",
       events: [
         {
           time: "07:00",
@@ -458,7 +458,7 @@ export const edinburgh = {
     },
 
     // ------------------------------------------------------------
-    // DÍA 9 — Mié 8 Abr | Ustedes solos (Fis + Osvaldo en hike)
+    // DÍA 9 — Mié 8 Abr | Ustedes solos (Fisha + Osvaldo en hike)
     // ------------------------------------------------------------
     abr08: {
       tag: "RECOVERY",
@@ -683,7 +683,7 @@ export const edinburgh = {
 
     // ------------------------------------------------------------
     // DÍA 11 — Vie 10 Abr | Check-out + estación + tren a Londres (logística)
-    // (Fis + Osvaldo siguen en hike; no los ven hasta el día 11)
+    // (Fisha + Osvaldo siguen en hike; no los ven hasta el día 11)
     // ------------------------------------------------------------
     abr10: {
       tag: "TREN",
