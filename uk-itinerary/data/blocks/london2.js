@@ -4,612 +4,649 @@ export const london2 = {
   color: "#1c1917",
   hotel: "London Marriott Hotel County Hall",
   dates: "10 Abr - 14 Abr",
-  base: "South Bank / Westminster (caminable, fotogénico, cero fricción)",
+  base: "South Bank / Westminster (cero esfuerzo, máximo impacto)",
   daysOrder: ["abr10", "abr11", "abr12", "abr13", "abr14"],
 
   rules: {
-    title: "PROTOCOLOS DE OPERACIÓN",
-    subtitle: "Pequeñas reglas = Londres sin fricción.",
+    title: "ESTRATEGIA DEL BLOQUE",
+    subtitle: "Reencuentro total + grandes eventos sin fricción.",
     bullets: [
-      "Tube + contactless como default.",
-      "Taxi/Uber cuando haya lluvia/viento, cansancio o prisa (vale la pena).",
-      "En grupo 5–6: punto de encuentro fijo en mercados/estaciones (si alguien se pierde, nos vemos en X).",
-      "Regla de energía: máximo 1 bloque pesado por día.",
+      "Grupo completo (5 pax): Jorge, Vanya, Lucas, Fisha, Osvaldo.",
+      "Osvaldo regresa: ahora toca Londres visual/experiencial (HP, estadio, WB Tour) y no museos pesados.",
+      "County Hall es ventaja brutal: Big Ben / Parliament / London Eye se tachan caminando.",
+      "Pendientes 1/1/1/1: Kew Gardens + Dishoom. Dishoom se ‘guarda’ para cierre si no cae el viernes.",
+      "Logística 5 pax: Uber Van/2 taxis. Reservas (teatro + roasts + cenas) = obligatorias.",
     ],
   },
 
   days: {
     // ------------------------------------------------------------
-    // DÍA 11 — Vie 10 Abr | Tren desde Edimburgo + check-in + South Bank welcome back
+    // DÍA 11 — Vie 10 Abr | Reagrupación + Vistas de Postal + Cena
     // ------------------------------------------------------------
     abr10: {
-      tag: "WELCOME BACK",
-      title: "Día 11 | Llegada a Londres + South Bank Essentials + cena cerca",
-      goal: "Llegar sin estrés, estirar piernas con postales brutales y cenar sin cruzar la ciudad.",
+      tag: "REENCUTRO",
+      title: "Día 11 | Reagrupación + vistas de postal + cena relajada",
+      goal:
+        "Unir al grupo sin estrés: llegada desde Edimburgo + recibimiento de Fisha/Osvaldo + golden hour caminable.",
       events: [
         {
           time: "15:10",
-          type: "llegada",
-          title: "Llegada a London King’s Cross",
+          type: "tren",
+          title: "Llegada a King’s Cross (Jorge/Vanya/Lucas)",
           icon: "train",
-          desc: "Objetivo: salir rápido, reagrupar y escoger traslado sin fricción hacia County Hall.",
-          subTitle: "Reagrupar antes de moverse",
+          desc:
+            "Vienen con maletas y de viaje: aquí se compra comodidad, no heroicidad en el Tube.",
+          subTitle: "Taxi/Uber directo al hotel",
           details: [
-            "Punto de encuentro fijo: elijan 1 spot claro al salir (por si alguien se separa).",
-            "Baño/agua rápido si lo necesitan antes del traslado.",
+            "Recomendación: Taxi/Uber directo al Marriott County Hall (puerta a puerta).",
+            "Costo-beneficio: dividido entre 3, vale totalmente la pena.",
+            "Checklist express: tickets/IDs listos, agua, baño si hace falta antes de salir.",
           ],
           options: [
-            { title: "Opción A - Taxi/Uber", text: "La más fácil para grupo y maletas (cero fricción)." },
-            { title: "Opción B - Tube", text: "Solo si van con energía y el clima está amable." },
+            { title: "Modo cero fricción", text: "Taxi directo y check-in sin vueltas." },
+            { title: "Modo práctico", text: "Si hay tráfico, igual taxi: menos cambios, menos estrés." },
           ],
-          tips: ["Reagrupar", "Punto fijo", "Taxi si llueve/viento"],
-          notes: "Con cansancio post-tren, taxi suele ser la mejor compra del día.",
+          tips: ["Taxi con maletas", "Agua", "No Tube con equipaje"],
+          notes:
+            "County Hall se disfruta más si llegan frescos, no sudados.",
         },
 
         {
-          time: "15:10",
-          type: "transporte",
-          title: "Traslado a County Hall + check-in",
-          icon: "car",
-          desc: "Llegar, dejar cosas y hacer reset rápido. South Bank es caminable y súper fotogénico.",
-          subTitle: "Cero fricción",
-          details: [
-            "Opción A: Taxi/Uber directo (recomendado para grupo).",
-            "Opción B: Tube y caminar (solo si están frescos).",
-          ],
-          options: [
-            { title: "Plan A - Taxi directo", text: "Más simple y rápido para grupo." },
-            { title: "Plan B - Tube", text: "Funciona, pero suma fricción si van con maletas." },
-          ],
-          tips: ["Taxi con maletas", "No inventar transbordos", "Llegar y resetear"],
-          notes: "La base South Bank / Westminster se disfruta más cuando llegan ligeros.",
-        },
-
-        {
-          time: "16:15",
+          time: "16:00",
           type: "hotel",
-          title: "Reset en hotel",
-          icon: "home",
-          desc: "Baño, cambio y recarga rápida. Si tienen lounge/beneficios, aprovechen para agua/café.",
-          subTitle: "15–45 min",
+          title: "Check-in @ Marriott County Hall + reencuentro",
+          icon: "hotel",
+          desc:
+            "Edificio histórico frente al Parlamento. Lobby y biblioteca = fotos top sin salir.",
+          subTitle: "Reset 45 min",
           details: [
-            "Baño y cambio rápido (capas según clima).",
-            "Power bank / baterías listas.",
+            "Reset: ducha rápida, cambio de ropa, power bank.",
+            "Fisha/Osvaldo: llegan por su cuenta y se ven aquí.",
+            "Regla: 45 min y afuera. Hoy la magia está caminando el río.",
           ],
           options: [
-            { title: "Modo rápido", text: "15–25 min y salen." },
-            { title: "Modo lounge", text: "Agua/café y a caminar con energía." },
+            { title: "Modo express", text: "Reset rápido y salida al golden hour." },
+            { title: "Modo comfy", text: "Si vienen muy cansados, bajen el ritmo, pero no se encueven." },
           ],
-          tips: ["Baterías", "Capas", "No alargar"],
-          notes: "Este reset hace que el walk se sienta delicioso, no pesado.",
+          tips: ["Power bank", "Capas", "Salir a golden hour"],
+          notes:
+            "Este hotel es un ‘cheat code’ de Londres.",
         },
 
         {
           time: "17:15",
-          type: "walk",
-          title: "South Bank Essentials (walk suave, máximo payoff)",
-          icon: "camera",
-          desc: "Ruta caminable perfecta: County Hall → London Eye → Jubilee Gardens → Westminster Bridge viewpoint (Big Ben).",
-          subTitle: "Cero esfuerzo, postales brutales",
+          type: "paseo",
+          title: "South Bank Golden Hour Walk (cero esfuerzo, máximo impacto)",
+          icon: "view",
+          desc:
+            "La caminata que hace que Osvaldo ‘sienta’ Londres de inmediato: Big Ben, Parlamento, London Eye en una sola secuencia.",
+          subTitle: "Ruta corta + postales",
           details: [
-            "Tip foto: al atardecer el río da reflejos muy buenos.",
-            "Hidden gem opcional (15 min): Leake Street Tunnel (graffiti) y vuelven.",
+            "Ruta: Hotel → Jubilee Gardens (abajo del London Eye) → Westminster Bridge.",
+            "Tachan: Big Ben + Parliament + London Eye (prioridad 1/1/1/1).",
+            "Tip foto: esquina del puente con el león de piedra + Big Ben de fondo.",
           ],
           options: [
-            { title: "Ruta base", text: "South Bank postales + Big Ben viewpoint." },
-            { title: "Extra urbano", text: "Leake Street Tunnel (corto) si quieren algo distinto." },
+            { title: "Modo foto pro", text: "15–20 min de fotos + caminar suave y regreso." },
+            { title: "Modo chill", text: "Solo caminar y 2 fotos clave, sin detenerse mucho." },
           ],
-          tips: ["Golden hour", "No alargar", "Corto y top"],
-          notes: "Este paseo reengancha el mood Londres sin cansarlos.",
+          tips: ["Fotos en el puente", "No alargar", "Capas (viento)"],
+          notes:
+            "Esto es la ‘postal obligatoria’ sin transporte.",
         },
 
         {
           time: "19:30",
           type: "cena",
-          title: "Cena cerca (sin cruzar la ciudad)",
+          title: "Cena de bienvenida (logística cero)",
           icon: "utensils",
-          desc: "Cena rica y cercana. La regla: logística cero.",
-          subTitle: "Cerrar bonito",
+          desc:
+            "Tres opciones perfectas según energía. La idea: comer rico sin perder el grupo.",
+          subTitle: "A/B/C según cansancio",
           details: [
-            "Opción A: Skylon (vistas + mood perfecto).",
-            "Opción B: Sea Containers (moderno, bar bonito).",
-            "Opción C: algo simple en South Bank si están cansados.",
+            "Opción A (segura): Skylon (Royal Festival Hall) — vistas al río, moderno, 5 min caminando.",
+            "Opción B (favorito Osvaldo): Dishoom Covent Garden — si hay energía (si no, se guarda para el lunes).",
+            "Opción C (cansancio): Gillray’s Steakhouse (dentro del Marriott) — gran carne sin salir del hotel.",
           ],
           options: [
-            { title: "Opción A - Skylon", text: "Vistas y cierre perfecto." },
-            { title: "Opción B - Sea Containers", text: "Moderno, bar bonito, vibra cool." },
-            { title: "Opción C - Simple", text: "Cerca y a dormir." },
+            { title: "Opción A - Skylon", text: "La más redonda para hoy (caminable + vistas)." },
+            { title: "Opción B - Dishoom", text: "Si el grupo está con gasolina y quieren ‘banquete’." },
+            { title: "Opción C - Gillray’s", text: "Si vienen fundidos: cero traslados." },
           ],
-          tips: ["Cerca", "Reservar si pueden", "No traslados"],
-          notes: "Mañana hay show largo: hoy conviene dormir bien.",
+          tips: ["Elegir por energía", "No complicarse", "Reserva si se puede"],
+          notes:
+            "Hoy gana la logística. Mañana es teatro largo.",
         },
 
         {
           time: "21:30",
-          type: "bar",
-          title: "Cierre corto (1 drink máximo)",
-          icon: "beer",
-          desc: "Una sola parada corta o directo al hotel. Mañana el teatro manda.",
-          subTitle: "Sin maratón",
-          details: ["Si ya están cansados: directo a dormir sin culpa."],
-          options: [
-            { title: "Modo drink", text: "1 cocktail y salida." },
-            { title: "Modo cama", text: "Directo. Recovery real." },
+          type: "logística",
+          title: "Cierre corto",
+          icon: "moon",
+          desc:
+            "A dormir. Mañana es maratón de teatro y necesitan cabeza clara.",
+          subTitle: "Regla: descanso > after",
+          details: [
+            "Si cenaron cerca: regreso caminando.",
+            "Si cenaron lejos: Uber directo al hotel.",
           ],
-          tips: ["1 drink", "Dormir manda"],
-          notes: "La energía de mañana vale más que otra ronda hoy.",
+          options: [
+            { title: "Modo pro", text: "Hotel y a dormir. Sin negociación." },
+          ],
+          tips: ["Dormir", "Hidratación", "No alargar"],
+          notes:
+            "El sábado se gana con sueño.",
         },
       ],
     },
 
     // ------------------------------------------------------------
-    // DÍA 12 — Sáb 11 Abr | Harry Potter and the Cursed Child (Parte 1 + Parte 2)
+    // DÍA 12 — Sáb 11 Abr | Harry Potter and the Cursed Child (FIJO)
     // ------------------------------------------------------------
     abr11: {
-      tag: "SHOW",
-      title: "Día 12 | Cursed Child (Parte 1 + Parte 2) — logística quirúrgica",
-      goal: "Llegar con buffer, comer perfecto entre funciones y cero fatiga.",
+      tag: "TEATRO",
+      title: "Día 12 | Harry Potter and the Cursed Child (día fijo)",
+      goal:
+        "Sobrevivir al teatro (doble función) con comida táctica y sin dormirse en la segunda parte.",
       events: [
         {
           time: "09:00",
           type: "desayuno",
-          title: "Desayuno cerca del hotel (ligero)",
+          title: "Desayuno ligero",
           icon: "coffee",
-          desc: "Hoy es teatro largo. No se vayan pesados.",
-          subTitle: "Ligero y funcional",
-          details: ["Café + algo pequeño. Guardar hambre para la comida entre partes."],
-          options: [
-            { title: "Modo ligero", text: "Café + pastry y listo." },
-            { title: "Modo balance", text: "Algo salado pequeño para aguantar." },
+          desc:
+            "Café + algo pequeño. No se claven: hoy hay lunch temprano y cena en intermedio.",
+          subTitle: "Ligero y eficiente",
+          details: [
+            "Objetivo: salir 10:30 hacia Covent/Soho sin prisa.",
           ],
-          tips: ["No pesado", "Agua", "Capas"],
-          notes: "Hoy gana el que llega con energía estable.",
+          options: [
+            { title: "Modo rápido", text: "Café + pastry y listo." },
+            { title: "Modo hotel", text: "Si el hotel conviene, 30–40 min máximo." },
+          ],
+          tips: ["Ligero", "No desayuno eterno", "Agua"],
+          notes:
+            "Guardar energía para el día largo.",
         },
 
         {
           time: "10:30",
           type: "paseo",
-          title: "Paseo corto pre-teatro (elige 1 zona)",
+          title: "Pre-teatro: Covent Garden (vibe visual)",
           icon: "map",
-          desc: "Todo caminable/Tube fácil. Elijan solo 1 zona para no cansarse.",
-          subTitle: "Una sola zona",
+          desc:
+            "Buskers + Apple Market. Perfecto para Osvaldo: ambiente visual sin museo.",
+          subTitle: "Calentamiento del día",
           details: [
-            "Opción A: Covent Garden + Seven Dials (tiendas + vibra).",
-            "Opción B: Soho (calles, discos, cafés).",
-            "Opción C (si llueve): Somerset House (vibes) + café.",
+            "Zona cerca del teatro (Shaftesbury Ave / Covent).",
+            "No se extiendan: hoy la agenda es fija.",
           ],
           options: [
-            { title: "Opción A - Covent/Seven Dials", text: "Vibe bonita, muy caminable." },
-            { title: "Opción B - Soho", text: "Más urbano, discos y cafés." },
-            { title: "Opción C - Somerset (lluvia)", text: "Plan interior-ish con café." },
+            { title: "Modo buskers", text: "Ver 1–2 actos y seguir." },
+            { title: "Modo shopping", text: "Apple Market rápido (20–30 min)." },
           ],
-          tips: ["Una zona", "No maratón", "Guardar energía"],
-          notes: "Si hacen 2 zonas, el show se siente eterno.",
+          tips: ["No perder tiempo", "Fotos", "Mantener ritmo"],
+          notes:
+            "Esto pone mood sin cansar.",
         },
 
         {
           time: "12:45",
           type: "logística",
-          title: "Llegada al área del teatro (buffer)",
+          title: "Llegada al Palace Theatre + buffer",
           icon: "ticket",
-          desc: "Meta: llegar 35–45 min antes para baños + entrar sin correr.",
-          subTitle: "Buffer pro",
-          details: ["Ubicar entradas, baños y punto de encuentro del grupo."],
-          options: [
-            { title: "Plan A", text: "Llegar 45 min antes (ideal)." },
-            { title: "Plan B", text: "Mínimo 35 min antes (no menos)." },
+          desc:
+            "Entradas digitales + seguridad toman tiempo. Llegar con margen evita el único drama del día.",
+          subTitle: "Punto de encuentro claro",
+          details: [
+            "Tener tickets en Wallet y baterías cargadas.",
+            "Punto si alguien se pierde: ‘afuera del pub cruzando la calle’.",
           ],
-          tips: ["Baños", "Punto de encuentro", "No correr"],
-          notes: "Este buffer evita el único drama del día.",
+          options: [
+            { title: "Modo pro", text: "Todos juntos antes de entrar." },
+          ],
+          tips: ["Tickets listos", "Batería", "Buffer real"],
+          notes:
+            "Teatro se disfruta cuando no corren.",
         },
 
         {
           time: "14:00",
           type: "evento",
-          title: "Cursed Child — Parte 1 (fijo)",
+          title: "Show Parte 1 (fijo)",
           icon: "sparkles",
-          desc: "Show. Disfruten y no piensen en nada más.",
-          subTitle: "Evento fijo",
-          details: ["Modo pro: baño antes de entrar y listo."],
-          options: [
-            { title: "Tip", text: "Silenciar notificaciones y go." },
-            { title: "Tip 2", text: "Si se separan: punto fijo al salir." },
-          ],
-          tips: ["Baño antes", "Punto fijo"],
-          notes: "Entre partes: cena rápida manda.",
+          desc:
+            "Disfruten la magia. Nada que optimizar aquí: solo gozar.",
+          subTitle: "Parte 1",
+          details: ["Entren hidratados y con snack ligero si lo necesitan."],
+          options: [{ title: "Tip", text: "Baño antes de empezar." }],
+          tips: ["Baño antes", "Agua"],
+          notes:
+            "El intermedio es el verdadero reto logístico.",
         },
 
         {
           time: "16:50",
           type: "cena",
-          title: "Cena temprana entre partes (5–12 min del Palace Theatre)",
+          title: "Cena táctica del intermedio (RESERVAR YA)",
           icon: "utensils",
-          desc: "Reservable, servicio rápido y no muy pesada. Hoy la cena es táctica.",
-          subTitle: "Quick but good",
+          desc:
+            "Tienen ~2 horas y Soho se llena. Sin reserva, pierden el bloque. Aquí se juega pro.",
+          subTitle: "Platos directos, servicio rápido",
           details: [
-            "Opción A: Bancone (pasta top).",
-            "Opción B: Flat Iron (carne eficiente).",
-            "Opción C: quick but good cerca (si no hay reserva).",
-            "Tip: pidan platos que salen rápido, eviten menú largo 3 tiempos.",
+            "Opción A: Flat Iron Denmark Street (carne rápida, rica, eficiente).",
+            "Opción B: Bancone (si no fueron / o si quieren repetir) — pasta rápida.",
+            "Regla: nada de menús largos. Entrar, comer, salir.",
           ],
           options: [
-            { title: "Opción A - Bancone", text: "Pasta top, buen ritmo." },
-            { title: "Opción B - Flat Iron", text: "Eficiente y rico." },
-            { title: "Opción C - Cercano", text: "Lo importante es velocidad + calidad." },
+            { title: "Opción A - Flat Iron", text: "La opción más eficiente para intermedio." },
+            { title: "Opción B - Bancone", text: "Pasta rápida, cero falla si hay reserva." },
           ],
-          tips: ["Servicio rápido", "No pesado", "Reservar si pueden"],
-          notes: "Comer pesado aquí arruina la Parte 2.",
+          tips: ["Reservar", "Platos directos", "No sobremesa", "Pedir rápido"],
+          notes:
+            "Este bloque decide si la Parte 2 se disfruta o se sufre.",
         },
 
         {
           time: "19:00",
           type: "evento",
-          title: "Cursed Child — Parte 2 (fijo)",
+          title: "Show Parte 2 (fijo)",
           icon: "sparkles",
-          desc: "Show. Mantener energía estable y disfrutar.",
-          subTitle: "Evento fijo",
-          details: ["Si están somnolientos: agua y café antes de entrar."],
-          options: [
-            { title: "Tip", text: "Café/agua antes de entrar si hace falta." },
-            { title: "Tip 2", text: "Punto fijo al salir para reagrupar." },
-          ],
-          tips: ["Agua", "Punto fijo"],
-          notes: "Post show: corto o cama.",
+          desc:
+            "Con cena táctica, llegan felices y despiertos. Eso es todo.",
+          subTitle: "Parte 2",
+          details: ["Regreso al teatro con 15–20 min de margen."],
+          options: [{ title: "Tip", text: "Baño rápido antes de sentarse." }],
+          tips: ["Llegar con margen", "No correr"],
+          notes:
+            "Termina tarde. Cierre corto.",
         },
 
         {
           time: "21:45",
           type: "bar",
-          title: "Post show (corto)",
-          icon: "moon",
-          desc: "1 cocktail o postre breve y al hotel. Si están reventados: directo a dormir.",
-          subTitle: "Cierre corto",
-          details: ["Regla: mañana hay sports bar, no conviene trasnochar."],
-          options: [
-            { title: "Modo cocktail", text: "1 ronda y salida." },
-            { title: "Modo cama", text: "Directo. Mañana lo agradecen." },
+          title: "Salida + drink rápido (opcional)",
+          icon: "glass",
+          desc:
+            "Si hay energía: un cocktail corto en Soho. Si no: Uber al hotel sin culpa.",
+          subTitle: "Decisión por energía",
+          details: [
+            "Opciones: Swift o Bar Termini (1 drink y listo).",
+            "Si están cansados: directo al hotel.",
           ],
-          tips: ["Corto", "Dormir manda"],
-          notes: "El lujo hoy es terminar con energía.",
+          options: [
+            { title: "Plan A", text: "1 cocktail rápido." },
+            { title: "Plan B", text: "Uber directo y dormir." },
+          ],
+          tips: ["Corto", "No alargar", "Dormir manda"],
+          notes:
+            "Mañana es domingo británico clásico.",
         },
       ],
     },
 
     // ------------------------------------------------------------
-    // DÍA 13 — Dom 12 Abr | Mercado foodie + Sports bar fútbol + cena sólida
+    // DÍA 13 — Dom 12 Abr | Mercado foodie + Fútbol + Sunday Roast
     // ------------------------------------------------------------
     abr12: {
       tag: "DOMINGO",
-      title: "Día 13 | Mercado foodie + sports bar fútbol + cena en grupo",
-      goal: "Domingo perfecto: mercado con vibe real + partido con ambiente y cena sin drama.",
+      title: "Día 13 | Mercado foodie + fútbol + Sunday Roast",
+      goal:
+        "Domingo británico perfecto: mercado, deporte y carne. Mantenerlo fluido para 5 pax.",
       events: [
         {
           time: "09:30",
           type: "desayuno",
-          title: "Desayuno ligero",
+          title: "Desayuno muy ligero",
           icon: "coffee",
-          desc: "Para llegar con hambre al mercado. Hoy la comida fuerte es en Maltby.",
+          desc:
+            "Solo café (o algo mínimo). Guardan espacio para el mercado.",
           subTitle: "Ligero",
-          details: ["Café + algo pequeño. No se llenen."],
-          options: [
-            { title: "Modo ligero", text: "Café + pastry y listo." },
-            { title: "Modo balance", text: "Algo salado pequeño." },
-          ],
-          tips: ["Llegar con hambre", "Agua"],
-          notes: "El mercado se disfruta más cuando prueban de todo.",
+          details: ["Objetivo: llegar 11:00 al mercado con hambre real."],
+          options: [{ title: "Tip", text: "Agua + café y listo." }],
+          tips: ["Ligero", "No alargar"],
+          notes:
+            "Hoy se come en bloques.",
         },
 
         {
           time: "11:00",
-          type: "mercado",
+          type: "comida",
           title: "Maltby Street Market (Bermondsey)",
-          icon: "shop",
-          desc: "Compacto bajo arcos ferroviarios, muy buen London vibe.",
-          subTitle: "Estrategia pro-grupo: parejas + compartir",
+          icon: "utensils",
+          desc:
+            "Callejón estrecho (‘Rope Walk’). Para Osvaldo (3), se vuelve fácil si le damos ‘asiento’ mientras otros hacen fila.",
+          subTitle: "Dividir y conquistar (5 pax)",
           details: [
-            "Se dividen en parejas: cada pareja compra 1 cosa y se juntan para compartir.",
-            "Qué probar: 1 salado contundente + 1 comfort (frito/ahumado) + 1 dulce + café bueno.",
+            "Estrategia: dividirse en parejas y luego compartir.",
+            "Must eat: sándwich de The Beef Steaks, gyoza, brownies.",
+            "Tip Osvaldo: bar de ginebra al inicio / vinos al final para sentarse mientras otros hacen fila.",
+            "Duración: 60–90 min máximo (no agobiar).",
           ],
           options: [
-            { title: "Modo pro", text: "Parejas compran y luego comparten todo." },
-            { title: "Modo simple", text: "Cada quien compra 1 cosa y se arma picnic corto." },
+            { title: "Modo pro", text: "Parejas: 2 filas en paralelo + share." },
+            { title: "Modo Osvaldo feliz", text: "Osvaldo se sienta con drink, otros hacen fila." },
           ],
-          tips: ["Parejas", "Compartir", "No empacharse"],
-          notes: "Esto se siente súper London sin el caos de mercados enormes.",
+          tips: ["Dividirse", "Share", "No pasar 90 min", "Asiento para descanso"],
+          notes:
+            "Mercado se disfruta cuando no se vuelve maratón.",
         },
 
         {
           time: "13:00",
-          type: "walk",
-          title: "Regreso suave hacia el hotel / río",
-          icon: "map",
-          desc: "Bajar ritmo, caminar bonito. Si llueve: taxi.",
-          subTitle: "Reset",
-          details: ["Si el clima castiga, taxi vale la pena."],
-          options: [
-            { title: "Plan A - Walk", text: "Si está lindo, suma vibes." },
-            { title: "Plan B - Taxi", text: "Si llueve/viento, cero fricción." },
+          type: "logística",
+          title: "Regreso / pausa antes del partido",
+          icon: "home",
+          desc:
+            "Pequeño reset según dónde vean el partido. Hoy el timing del pub es todo.",
+          subTitle: "Buffer pre-pub",
+          details: [
+            "Si van lejos (Kensington): salgan con tiempo.",
+            "Objetivo: estar 60–75 min antes para agarrar mesa.",
           ],
-          tips: ["Taxi si llueve", "No mojarse"],
-          notes: "Llegar al sports bar con energía.",
+          options: [
+            { title: "Modo pro", text: "Salir temprano y asegurar mesa." },
+            { title: "Modo chill", text: "Si ya están cerca, igual llegar con margen." },
+          ],
+          tips: ["Buffer real", "No llegar al kickoff"],
+          notes:
+            "Los pubs de deportes se llenan brutal en domingo.",
         },
 
         {
           time: "15:00",
-          type: "sports",
-          title: "SPORTS BAR (ambiente máximo)",
+          type: "evento",
+          title: "PARTIDO en sports pub (The Famous Three Kings - Kensington)",
           icon: "tv",
           desc:
-            "Recomendación principal: The Famous Three Kings. Muchas pantallas y vibra de partido real.",
-          subTitle: "Llegar 60–75 min antes del kickoff",
+            "El mejor para ver varios deportes. La clave: llegar antes y asegurar visión.",
+          subTitle: "Mesa + visión + pub food",
           details: [
-            "Timing: llegar 60–75 min antes del partido que quieran ver para asegurar mesa buena.",
-            "Plan B si está a reventar: llegar temprano igual y quedarse, o moverse a otro sports bar grande.",
-            "Qué pedir: 1 pint lager/Guinness + 1 pint ale si les late + pub food para compartir.",
-            "Whisky: 1 ronda pequeña máximo (no maratón).",
+            "Llegar 60–75 min antes para mesa buena.",
+            "Consumo: alitas/nachos + pintas.",
+            "Tip: definan punto de encuentro adentro (barra principal).",
           ],
           options: [
-            { title: "Plan A - Famous Three Kings", text: "Ambiente top, muchas pantallas." },
-            { title: "Plan B - Alterno grande", text: "Si está lleno, moverse temprano a otro." },
+            { title: "Modo pro", text: "Mesa con vista directa y orden temprano." },
+            { title: "Modo flexible", text: "Si está imposible, plan B: pub cercano al hotel." },
           ],
-          tips: ["Llegar temprano", "Mesa buena", "Pub food para compartir", "1 ronda whisky máximo"],
-          notes: "El truco es timing. Llegar tarde = estar parados o sin vista.",
+          tips: ["Llegar temprano", "Mesa buena", "Ordenar rápido"],
+          notes:
+            "Este bloque es para Osvaldo: experiencia, no museo.",
         },
 
         {
           time: "20:00",
           type: "cena",
-          title: "Cena (reservar recomendado)",
+          title: "Sunday Roast en Blacklock (Soho o City) — RESERVA OBLIGATORIA",
           icon: "utensils",
-          desc: "Cierre sólido en grupo. Elegir según energía y logística.",
-          subTitle: "Cierre rico",
+          desc:
+            "Uno de los mejores roasts de Londres. Vibe ruidosa, divertida y perfecta para 5.",
+          subTitle: "Carne top",
           details: [
-            "Opción A: Blacklock (perfecto para grupo).",
-            "Opción B: Bancone (si no lo hicieron el 11).",
-            "Opción C: cerca del hotel si ya vienen cansados.",
+            "Si queda roast: perfecto. Si no: sus chops son el plan.",
+            "Reservar sí o sí (domingo se llena).",
           ],
           options: [
-            { title: "Opción A - Blacklock", text: "Grupo feliz, cierre redondo." },
-            { title: "Opción B - Bancone", text: "Pasta top si faltó." },
-            { title: "Opción C - Cerca", text: "Cero logística y a dormir." },
+            { title: "Plan A", text: "Blacklock Soho." },
+            { title: "Plan B", text: "Blacklock City." },
           ],
-          tips: ["Reservar", "Cerca si están cansados"],
-          notes: "Mañana toca Studios: hoy conviene dormir decente.",
+          tips: ["Reservar", "No llegar tarde", "Disfrutar sin prisa"],
+          notes:
+            "Cierre perfecto de domingo.",
         },
       ],
     },
 
     // ------------------------------------------------------------
-    // DÍA 14 — Lun 13 Abr | Warner Bros Studio Tour (entrada 12:00)
+    // DÍA 14 — Lun 13 Abr | Warner Bros. Studio Tour (Harry Potter)
     // ------------------------------------------------------------
     abr13: {
-      tag: "STUDIOS",
-      title: "Día 14 | Warner Bros Studio Tour (12:00) + regreso sin estrés",
-      goal: "Llegar con margen al slot, disfrutar completo, tienda al final y regresar fácil.",
+      tag: "HARRY",
+      title: "Día 14 | Warner Bros. Studio Tour (Harry Potter)",
+      goal:
+        "Logística de tren impecable + tour sin prisas + cena final en Dishoom si no cayó el viernes.",
       events: [
         {
-          time: "08:30",
-          type: "desayuno",
-          title: "Desayuno simple (no pesado)",
-          icon: "coffee",
-          desc: "Hoy el tour es largo. Mejor arrancar ligero.",
-          subTitle: "Ligero",
-          details: ["Café + algo pequeño. Snack extra para el camino."],
-          options: [
-            { title: "Modo ligero", text: "Café + pastry." },
-            { title: "Modo balance", text: "Algo salado pequeño." },
-          ],
-          tips: ["No pesado", "Snack", "Agua"],
-          notes: "Eviten llegar con hambre al tour.",
-        },
-
-        {
           time: "09:45",
-          type: "salida",
-          title: "Salida del hotel (buffer inteligente)",
-          icon: "map",
-          desc: "Ruta recomendada: County Hall → Waterloo → Northern line → Euston.",
-          subTitle: "Mantenerse juntos",
+          type: "transporte",
+          title: "Salida del Marriott → London Euston (táctica pro-grupo)",
+          icon: "car",
+          desc:
+            "Para 5 pax en hora pico, taxi a Euston suele ser más fácil que Tube con cambios y escaleras.",
+          subTitle: "Evitar hora pico con maletas/mochilas",
           details: [
-            "En grupo: estaciones separan fácil. Punto fijo si alguien se pierde.",
-            "Objetivo: llegar a Euston con margen real.",
+            "Recomendación: 1 Uber Van si aparece, o 2 taxis.",
+            "Objetivo: llegar con margen y comprar snacks para trayecto.",
           ],
           options: [
-            { title: "Plan A", text: "Ruta recomendada y buffer." },
-            { title: "Plan B", text: "Si llueve fuerte: taxi a estación clave y simplificar." },
+            { title: "Plan A", text: "Uber Van." },
+            { title: "Plan B", text: "2 taxis y se ven en la entrada principal de Euston." },
           ],
-          tips: ["Punto fijo", "Buffer", "Contactless"],
-          notes: "Hoy la logística manda. No improvisen.",
+          tips: ["Taxi > Tube", "Punto de encuentro fijo", "Buffer"],
+          notes:
+            "Este traslado define el tono del día.",
         },
 
         {
           time: "10:45",
           type: "tren",
-          title: "Tren Euston → Watford Junction (~20 min)",
-          icon: "ticket",
-          desc: "Tramo rápido. Mantenerse juntos.",
-          subTitle: "Sin separarse",
-          details: ["Confirmar andén y vagón con tiempo. Baño antes si hace falta."],
-          options: [
-            { title: "Modo pro", text: "Andén y vagón listos antes del anuncio final." },
-            { title: "Modo grupo", text: "Subir juntos y sentarse cerca si se puede." },
+          title: "Tren Euston → Watford Junction (contactless)",
+          icon: "train",
+          desc:
+            "Tren rápido (~20 min). Eviten el stopping service que tarda ~50 min.",
+          subTitle: "Elegir tren rápido",
+          details: [
+            "Pagar con Oyster/Contactless.",
+            "Tip: revisen pantallas y eviten el servicio con muchas paradas.",
           ],
-          tips: ["No separarse", "Tickets listos", "Agua"],
-          notes: "Estación + grupo = punto de encuentro fijo siempre.",
+          options: [
+            { title: "Modo pro", text: "Solo tren rápido. Cero ‘stopping’." },
+            { title: "Modo backup", text: "Si solo hay stopping, igual: pero ajusten tiempo." },
+          ],
+          tips: ["Tren rápido", "Contactless listo", "No perder el tren"],
+          notes:
+            "Con 5 pax, el error típico es perder 20–30 min aquí.",
         },
 
         {
           time: "11:15",
-          type: "shuttle",
-          title: "Shuttle del parque / traslado final a Studios",
+          type: "transporte",
+          title: "Shuttle bus Harry Potter (Watford Junction → Studios)",
           icon: "bus",
-          desc: "Meta: estar en la entrada 11:45 para entrar sin prisas.",
-          subTitle: "Llegar 11:45",
-          details: ["Si se separan: punto fijo: entrada principal 11:45."],
-          options: [
-            { title: "Plan A", text: "Shuttle y directo." },
-            { title: "Plan B", text: "Taxi local si algo sale raro (solo si hace falta)." },
+          desc:
+            "Bus brandeado afuera de la estación. Aproximado £3. Paguen rápido y suban juntos.",
+          subTitle: "Puerta a puerta",
+          details: [
+            "Tip: tengan contactless listo (o efectivo si lo piden).",
+            "Punto de encuentro: justo donde forma la fila del bus.",
           ],
-          tips: ["11:45 en entrada", "Punto fijo"],
-          notes: "Entrar sin prisa cambia el tour.",
+          options: [
+            { title: "Modo pro", text: "Subir juntos para no descoordinarse." },
+          ],
+          tips: ["Contactless listo", "Punto fijo", "No separarse"],
+          notes:
+            "Esto evita que el grupo se ‘rompa’.",
         },
 
         {
           time: "12:00",
           type: "evento",
-          title: "Studio Tour (12:00–16:30+)",
+          title: "WB Studio Tour: The Making of Harry Potter (entrada fija)",
           icon: "sparkles",
-          desc: "No corran. Mejor saborearlo. Coman algo dentro cuando les pegue hambre.",
-          subTitle: "Disfrutar completo",
+          desc:
+            "Tómense su tiempo. Gran Comedor sin prisa. Butterbeer a mitad del tour (zona exterior).",
+          subTitle: "Ritmo sin carreras",
           details: [
-            "Comer dentro cuando se necesite: si aguantan hambre, se cae la energía.",
-            "Tienda al final: definan presupuesto rápido para no eternizarse.",
+            "Gran Comedor: ver bien detalles y fotos con calma.",
+            "Butterbeer: mejor a mitad del tour para descanso y ‘reset’.",
+            "Osvaldo/Lucas/Fisha: sets + tecnología = su zona feliz.",
           ],
           options: [
-            { title: "Modo disfrute", text: "Sin prisa. Vale más que ‘ver todo rápido’." },
-            { title: "Modo presupuesto", text: "Definir tope antes de entrar a tienda." },
+            { title: "Modo completo", text: "Hacerlo con calma y sin intentar ‘ganarle’ al tour." },
+            { title: "Modo fotos", text: "Fotos selectivas (no 200) para no saturarse." },
           ],
-          tips: ["No correr", "Snack dentro", "Presupuesto tienda"],
-          notes: "Este día se arruina si lo hacen con prisa.",
+          tips: ["Sin prisa", "Butterbeer mid-tour", "Batería", "Fotos selectivas"],
+          notes:
+            "Este es el gran evento visual del bloque.",
         },
 
         {
           time: "17:00",
-          type: "regreso",
-          title: "Regreso a Londres + hotel",
+          type: "transporte",
+          title: "Regreso a Londres (misma ruta inversa)",
           icon: "train",
-          desc: "Volver sin estrés y resetear antes de cenar.",
-          subTitle: "Recovery",
-          details: ["Si llueve o están cansados: taxi al final vale la pena."],
-          options: [
-            { title: "Plan A", text: "Regreso normal y reset." },
-            { title: "Plan B", text: "Taxi si vienen rotos." },
+          desc:
+            "Shuttle → Watford → Euston. Mantener grupo junto en transbordos.",
+          subTitle: "Regreso limpio",
+          details: [
+            "Regla: todos juntos en estaciones. Punto de encuentro fijo si se separan (salida del andén).",
           ],
-          tips: ["Taxi si cansancio", "Reset"],
-          notes: "Cenar cerca hoy es lo más smart.",
+          options: [
+            { title: "Modo pro", text: "No compras largas en estación. Directo al tren." },
+          ],
+          tips: ["Todos juntos", "Punto fijo", "No perder tiempo"],
+          notes:
+            "Llegan cansados: cena final debe ser fácil.",
         },
 
         {
           time: "20:00",
           type: "cena",
-          title: "Cena tranquila cerca del hotel",
+          title: "Cena final: DISHOOM (si no fueron el viernes)",
           icon: "utensils",
-          desc: "Skylon (seguro, bonito) o algo pegado para cero logística.",
-          subTitle: "Cero fricción",
+          desc:
+            "Si no cayó el día 11, hoy es EL día. Vibe de banquete compartido perfecto para despedida.",
+          subTitle: "Sede sugerida + pedido base",
           details: [
-            "Mantenerla cerca: hoy ya fue largo.",
-            "Cierre corto y a dormir.",
+            "Sede sugerida: Kensington suele tener menos fila que Covent Garden.",
+            "Pedido recomendado: Chicken Ruby, Black Daal, Garlic Naan, Okra Fries.",
           ],
           options: [
-            { title: "Opción A - Skylon", text: "Seguro y bonito." },
-            { title: "Opción B - Pegado", text: "Cero traslados y listo." },
+            { title: "Plan A", text: "Dishoom Kensington (cierre ideal)." },
+            { title: "Plan B", text: "Si están destruidos: cena simple cerca del hotel y Dishoom se reubica." },
           ],
-          tips: ["Cerca", "Cierre corto"],
-          notes: "Mañana es día final + LHR: dormir ayuda.",
+          tips: ["Compartir platos", "Reservar/planear fila", "Cierre con intención"],
+          notes:
+            "Si ya fueron Dishoom el viernes, hoy cena simple y temprano.",
         },
       ],
     },
 
     // ------------------------------------------------------------
-    // DÍA 15 — Mar 14 Abr | Primavera + fotos + compras + LHR (vuelo 22:30)
+    // DÍA 15 — Mar 14 Abr | Últimas compras + Heathrow (vuelo 22:30)
     // ------------------------------------------------------------
     abr14: {
-      tag: "LHR",
-      title: "Día 15 | Día final + fotos + compras + Heathrow sin estrés",
-      goal: "Día top sin cargar maletas y salida a Heathrow con margen premium.",
+      tag: "SALIDA",
+      title: "Día 15 | Últimas compras + Heathrow",
+      goal:
+        "Aprovechar el día completo sin sufrir con maletas. Cierre elegante y traslado a LHR con buffer real.",
       events: [
         {
           time: "09:30",
-          type: "desayuno",
-          title: "Desayuno final (bonito)",
-          icon: "coffee",
-          desc: "Algo clásico y tranquilo. Hoy se trata de cerrar bien.",
-          subTitle: "Último desayuno",
-          details: ["Ideal sin filas enormes. Mantenerlo agradable pero no eterno."],
-          options: [
-            { title: "Modo bonito", text: "Sentarse y cerrar el viaje con calma." },
-            { title: "Modo eficiente", text: "Desayuno corto si quieren maximizar la mañana." },
+          type: "hotel",
+          title: "Check-out + maletas en concierge",
+          icon: "luggage",
+          desc:
+            "Dejen todo en el concierge del County Hall. Seguro y práctico.",
+          subTitle: "Libertad total",
+          details: [
+            "Tip: guarden una bolsita con esenciales (cargadores, agua, capa ligera).",
           ],
-          tips: ["No eterno", "Capas"],
-          notes: "Hoy la logística de maletas manda.",
+          options: [
+            { title: "Modo pro", text: "Maletas fuera de la mente, día ligero." },
+          ],
+          tips: ["Concierge", "Esenciales en bolsa", "Batería"],
+          notes:
+            "Esto convierte el día final en día normal (no día de maletas).",
         },
 
         {
           time: "11:00",
-          type: "hotel",
-          title: "Check-out + maletas a concierge (crítico)",
-          icon: "home",
-          desc: "Dejar maletas guardadas para que el día fluya sin cargar nada.",
-          subTitle: "Clave del día",
-          details: ["Confirmar con concierge y listo. Cero peso, cero fricción."],
-          options: [
-            { title: "Checklist", text: "Pasaportes, cargadores, compras y souvenirs ordenados." },
-            { title: "Tip pro", text: "Dejar una bolsa pequeña para el día." },
+          type: "paseo",
+          title: "Opción ganadora: Notting Hill + Portobello",
+          icon: "shopping-bag",
+          desc:
+            "Visual icónico + compras ligeras + cafés cool. Fisha (1) lo disfruta muchísimo.",
+          subTitle: "Último paseo perfecto",
+          details: [
+            "Casas de colores + Portobello para antigüedades/souvenirs bonitos.",
+            "Osvaldo: buen lugar para fotos sin ‘museo’.",
           ],
-          tips: ["Maletas guardadas", "Bolsa pequeña"],
-          notes: "Esto hace el día 10x mejor.",
+          options: [
+            { title: "Plan A (recomendado)", text: "Notting Hill + Portobello (cero estrés)." },
+            {
+              title: "Plan B (alternativa 1/1/1/1)",
+              text: "Kew Gardens si hay sol perfecto y energía para caminar 3+ horas.",
+            },
+          ],
+          tips: ["Visual", "Compras ligeras", "No cansarse de más"],
+          notes:
+            "Recomendación: Notting Hill gana por simplicidad y mood.",
         },
 
         {
-          time: "11:30",
-          type: "zona",
-          title: "Plan de día (elige 1 zona estrella)",
-          icon: "map",
-          desc: "Una sola zona para que se sienta premium. Dividirse y reagrupar funciona perfecto.",
-          subTitle: "1 zona = 0 fricción",
+          time: "12:00",
+          type: "nota",
+          title: "Alternativa: Kew Gardens (solo si clima perfecto)",
+          icon: "leaf",
+          desc:
+            "Kew era 1/1/1/1. Se hace únicamente si el día está espectacular y el grupo está con energía.",
+          subTitle: "Logística Kew (si aplica)",
           details: [
-            "Opción A (más recomendable): Notting Hill + Portobello (fachadas, calles bonitas, compras ligeras).",
-            "Opción B (distinto y calmado): Greenwich (day trip light).",
-            "Opción C (botánica top): Kew Gardens (más lejos, solo si aman jardines).",
+            "District line hacia Kew.",
+            "Lockers: puede haber en Victoria Gate, pero confirmar disponibilidad.",
+            "Opciones: ir con maletas (más fricción) o ir sin maletas y volver al hotel (más seguro).",
           ],
           options: [
-            { title: "Opción A - Notting Hill/Portobello", text: "Fotos + vibe + compras fáciles." },
-            { title: "Opción B - Greenwich", text: "Se siente distinto al centro." },
-            { title: "Opción C - Kew Gardens", text: "Jardines top, pero más lejos." },
+            { title: "Modo seguro", text: "Notting Hill y listo." },
+            { title: "Modo Kew", text: "Solo con sol + energía + timing controlado." },
           ],
-          tips: ["Una sola zona", "Reagrupar en punto fijo", "No maratón"],
-          notes: "Dividirse y juntarse en X hace que el grupo fluya.",
+          tips: ["No forzar", "Clima manda", "Timing"],
+          notes:
+            "Kew es precioso, pero no a costa de estresar el día final.",
         },
 
         {
           time: "15:30",
-          type: "reset",
-          title: "Regreso al hotel + reset",
+          type: "logística",
+          title: "Regreso al hotel + último reset",
           icon: "home",
-          desc: "Recoger maletas, baño/cambio si hace falta y snack antes de salir (muy recomendado).",
-          subTitle: "Preparación LHR",
+          desc:
+            "Recoger maletas, baños del lobby, cambio de ropa si conviene para el avión.",
+          subTitle: "Reset final",
           details: [
-            "Recoger maletas.",
-            "Baño/cambio rápido.",
-            "Snack para no llegar con hambre al aeropuerto.",
+            "Checklist: pasaportes, wallet, baterías, abrigo a mano (LHR puede ser frío).",
+            "Objetivo: salir 17:30 con calma.",
           ],
           options: [
-            { title: "Modo pro", text: "Snack + agua listos para el camino." },
-            { title: "Modo rápido", text: "Cambio rápido y salida." },
+            { title: "Modo pro", text: "Todo listo antes de subir al transfer." },
           ],
-          tips: ["Snack", "Agua", "Baterías"],
-          notes: "Este reset es lo que evita estrés en LHR.",
+          tips: ["Baños lobby", "Cambio ropa", "Checklist"],
+          notes:
+            "Este reset evita ‘buscar cosas’ en el aeropuerto.",
         },
 
         {
-          time: "18:00",
-          type: "aeropuerto",
-          title: "Salida a Heathrow (recomendado 18:00)",
+          time: "17:30",
+          type: "transporte",
+          title: "Traslado a Heathrow (vuelo 22:30)",
           icon: "plane",
-          desc: "Meta: llegar 19:00–19:30 para margen premium (tráfico, terminal, seguridad, imprevistos).",
-          subTitle: "Margen real",
+          desc:
+            "Para 5 pax: transfer privado (Van) o 2 Uber XL. County Hall → LHR puede ser 60–90 min en hora pico.",
+          subTitle: "Buffer real",
           details: [
-            "Opción 1: Taxi/Uber directo (más fácil en grupo, cero transbordos).",
-            "Opción 2: Tube a Paddington + Heathrow Express (rápida y confiable).",
-            "Opción 3: Tube hasta Heathrow (más lenta y más fricción con maletas).",
+            "Opción premium: private transfer (Van Mercedes) reservado con antelación.",
+            "Opción alternativa: 2 Uber XL.",
+            "Meta: llegar 19:30 (perfecto para vuelo 22:30).",
           ],
           options: [
-            { title: "Opción 1 - Taxi directo", text: "Cero transbordos con maletas." },
-            { title: "Opción 2 - Heathrow Express", text: "Menos dependencia de tráfico." },
-            { title: "Opción 3 - Tube", text: "Más fricción, pero funciona." },
+            { title: "Plan A (premium)", text: "Private transfer reservado." },
+            { title: "Plan B", text: "2 Uber XL (coordinación por punto fijo)." },
           ],
-          tips: ["Salir 18:00", "Llegar 19:00–19:30", "No improvisar"],
-          notes: "Con vuelo 22:30, este margen les da un cierre sin estrés.",
+          tips: ["Salgan con tiempo", "Tráfico 60–90 min", "Llegar 19:30"],
+          notes:
+            "Cierre perfecto = llegar con margen y sin estrés.",
         },
       ],
     },

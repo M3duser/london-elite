@@ -15,7 +15,6 @@ let state = {
 
   insiderFilter: "All",
   reservasLevel: "nivel1",
-
 };
 
 const app = document.getElementById("app");
@@ -138,8 +137,7 @@ function openGuide(key) {
   state.activeEventIdx = null;
   state.sheetOpen = true;
   state.drawerOpen = false;
-    if (key === "reservas") state.reservasLevel = "nivel1";
-
+  if (key === "reservas") state.reservasLevel = "nivel1";
 
   // reset filter whenever opening insider
   if (key === "insider") state.insiderFilter = "All";
@@ -244,6 +242,58 @@ function renderBanner() {
         <span>${metaText}</span>
       </div>
     </div>
+  `;
+}
+
+/* ✅ NEW: Block Strategy (reads block.rules) */
+function renderBlockStrategy() {
+  const block = getBlock();
+  const rules = block.rules;
+  const st = block.strategy;
+  if (!rules) return "";
+
+  const title = rules.title || "ESTRATEGIA DEL BLOQUE";
+  const subtitle = rules.subtitle || "";
+  const bullets = Array.isArray(rules.bullets) ? rules.bullets : [];
+
+  if (!subtitle && bullets.length === 0) return "";
+
+  return `
+    <section class="strategy container">
+      <details class="strategy-card">
+        <summary class="strategy-sum press" aria-label="Open block strategy">
+          <div class="strategy-sum__left">
+            <div class="strategy-kicker">BRIEFING</div>
+            <div class="strategy-title">${title}</div>
+            ${subtitle ? `<div class="strategy-sub">${subtitle}</div>` : ""}
+          </div>
+          <div class="strategy-sum__right">
+            ${icon("chevron-down", "icon-sm")}
+          </div>
+        </summary>
+
+        ${
+          bullets.length
+            ? `
+              <div class="strategy-body">
+                <ul class="strategy-list">
+                  ${bullets
+                    .map(
+                      (b) => `
+                        <li>
+                          ${icon("check-circle", "icon-sm")}
+                          <span>${b}</span>
+                        </li>
+                      `
+                    )
+                    .join("")}
+                </ul>
+              </div>
+            `
+            : ""
+        }
+      </details>
+    </section>
   `;
 }
 
@@ -556,7 +606,6 @@ function renderReservasSheet(sheet) {
   `;
 }
 
-
 function renderSheet() {
   const isOpen = state.sheetOpen ? "open" : "";
   const mode = state.sheetMode;
@@ -585,7 +634,7 @@ function renderSheet() {
             </button>
           </div>
 
-                   ${
+          ${
             sheet.kind === "insider"
               ? renderInsiderSheet(sheet)
               : sheet.kind === "reservas"
@@ -708,6 +757,7 @@ function renderApp() {
     ${renderTopbar()}
     <main class="timeline">
       ${renderBanner()}
+      ${renderBlockStrategy()}  <!-- ✅ HERE -->
       ${renderDayNav()}
       ${renderSectionDivider()}
       ${renderEvents()}
@@ -793,7 +843,6 @@ app.addEventListener("click", (e) => {
     if (state.sheetOpen) return closeSheet();
   }
 });
-
 
 /* Swipe day nav (only when no overlay) */
 let sx = 0,

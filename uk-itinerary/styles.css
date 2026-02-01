@@ -758,3 +758,104 @@ ul,li{list-style:none;padding:0;margin:0;}
     width:100%;
   }
 }
+
+
+/* ---------------------------
+  BLOCK STRATEGY (NEW)
+--------------------------- */
+.strategy{
+  margin-top: 10px;
+  margin-bottom: 6px;
+}
+
+/* card */
+.strategy-card{
+  background: var(--surface);
+  border: 1px solid var(--stroke);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,.02);
+}
+
+/* summary */
+.strategy-sum{
+  list-style: none;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+  padding: 16px 16px;
+  cursor: pointer;
+}
+
+/* hide default marker */
+.strategy-sum::-webkit-details-marker{display:none;}
+.strategy-card > summary{outline:none;}
+.strategy-card[open] .strategy-sum{
+  border-bottom:1px solid var(--stroke);
+}
+
+/* left text stack */
+.strategy-sum__left{min-width:0;}
+.strategy-kicker{
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  color: var(--accent-gold);
+  font-weight:700;
+  margin-bottom:6px;
+}
+.strategy-title{
+  font-family: var(--font-serif);
+  font-size:18px;
+  font-weight:700;
+  letter-spacing:-.01em;
+  line-height:1.15;
+  color: var(--ink-primary);
+}
+.strategy-sub{
+  margin-top:6px;
+  font-size:12px;
+  color: var(--ink-secondary);
+  line-height:1.55;
+}
+
+/* right icon */
+.strategy-sum__right{
+  flex:0 0 auto;
+  color: var(--ink-tertiary);
+  margin-top: 2px;
+  transition: transform .18s ease;
+}
+.strategy-card[open] .strategy-sum__right{
+  transform: rotate(180deg);
+}
+
+/* body */
+.strategy-body{
+  padding: 14px 16px 16px;
+}
+
+.strategy-list{
+  display:grid;
+  gap:10px;
+}
+.strategy-list li{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  font-size:13px;
+  color: var(--ink-secondary);
+  line-height:1.55;
+}
+.strategy-list li .icon-sm{
+  color: var(--accent-gold);
+  margin-top:2px;
+}
+
+/* nicer tap target on mobile */
+@media (max-width:520px){
+  .strategy-sum{padding: 14px 14px;}
+  .strategy-body{padding: 12px 14px 14px;}
+  .strategy-title{font-size:17px;}
+}

@@ -2,27 +2,10 @@ export const york = {
   id: "york",
   name: "YORK",
   color: "#2b1b10",
-  hotel: "The Grand, York (1 noche)",
+  hotel: "1 noche en York (centro histórico)",
   dates: "04 Abr - 05 Abr",
   base: "Centro medieval (todo caminable)",
   daysOrder: ["abr04", "abr05"],
-
-  // ✅ NUEVO: estrategia del bloque
-  rules: {
-    title: "ESTRATEGIA DEL BLOQUE",
-    subtitle: "1 noche, máximo impacto visual + cero fricción. York se gana con ritmo y timing.",
-    bullets: [
-      "Integrantes (presentes): Jorge, Vanya, Fisha, Lucas (4 pax).",
-      "Osvaldo ausente en este bloque.",
-      "Objetivo real: caminar York sin zigzags, capturar Shambles + Minster + murallas en golden hour.",
-      "Logística ganadora: dejar maletas y salir rápido (reset 15 min). Hoy la ciudad se disfruta caminando, no pausando en hotel.",
-      "Comida inteligente: lunch rápido y ligero (mercado/Spark) para no matar la tarde ni llegar con hambre a la cena.",
-      "Momento estrella: murallas al atardecer (Bootham Bar -> Monk Bar). Capas e impermeable mandan: arriba pega el viento.",
-      "Sábado noche: 1 cena buena + 1 pub fuerte (Trembling Madness). Regla: una sola ronda larga, dormir bien.",
-      "Domingo (festival): llegar temprano (10:00), dividirse en parejas para el Taste Trail, reagrupar y compartir. Evitar colas absurdas.",
-      "Tren day: buffer 45–60 min siempre (tickets listos, baño, agua, snack). El único drama posible es correr con maletas.",
-    ],
-  },
 
   days: {
     // ------------------------------------------------------------
